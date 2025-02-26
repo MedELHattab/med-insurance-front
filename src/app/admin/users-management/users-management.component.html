@@ -1,0 +1,130 @@
+<div class="p-6">
+    <h2 class="text-2xl font-bold mb-4">Users Management</h2>
+  
+    <!-- Display Users -->
+    <ul class="space-y-2 mb-6">
+      <li *ngFor="let user of users" class="p-4 bg-white shadow rounded-lg flex justify-between items-center">
+        <div>
+          <p class="font-semibold">{{ user.name }}</p>
+          <p class="text-gray-600">{{ user.email }}</p>
+        </div>
+        <div>
+          <button (click)="loadUserById(user.id)" class="mr-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+            View
+          </button>
+          <button (click)="deleteUser(user.id)" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
+            Delete
+          </button>
+        </div>
+      </li>
+    </ul>
+  
+    <!-- View User Details -->
+    <div *ngIf="selectedUser" class="mb-6 p-4 bg-white shadow rounded-lg">
+      <h3 class="text-xl font-semibold mb-4">Selected User</h3>
+      <p><span class="font-medium">Name:</span> {{ selectedUser.name }}</p>
+      <p><span class="font-medium">Email:</span> {{ selectedUser.email }}</p>
+      <p><span class="font-medium">Age:</span> {{ selectedUser.age }}</p>
+      <p><span class="font-medium">Monthly Income:</span> {{ selectedUser.monthlyIncome }}</p>
+      <p><span class="font-medium">Credit Score:</span> {{ selectedUser.creditScore }}</p>
+      <p><span class="font-medium">Role:</span> {{ selectedUser.role }}</p>
+    </div>
+  
+    <!-- Create User Form -->
+    <div class="mb-6 p-4 bg-white shadow rounded-lg">
+      <h3 class="text-xl font-semibold mb-4">Create User</h3>
+      <form (ngSubmit)="createUser(newUser)" class="space-y-4">
+        <div>
+          <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+          <input id="name" [(ngModel)]="newUser.name" name="name" placeholder="Name" required maxlength="100"
+                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+        </div>
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+          <input id="email" [(ngModel)]="newUser.email" name="email" placeholder="Email" required maxlength="100" type="email"
+                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+        </div>
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+          <input id="password" [(ngModel)]="newUser.password" name="password" placeholder="Password" required type="password"
+                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+        </div>
+        <div>
+          <label for="age" class="block text-sm font-medium text-gray-700">Age</label>
+          <input id="age" [(ngModel)]="newUser.age" name="age" placeholder="Age" required type="number" min="18"
+                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+        </div>
+        <div>
+          <label for="monthlyIncome" class="block text-sm font-medium text-gray-700">Monthly Income</label>
+          <input id="monthlyIncome" [(ngModel)]="newUser.monthlyIncome" name="monthlyIncome" placeholder="Monthly Income" required type="number" min="0"
+                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+        </div>
+        <div>
+          <label for="creditScore" class="block text-sm font-medium text-gray-700">Credit Score</label>
+          <input id="creditScore" [(ngModel)]="newUser.creditScore" name="creditScore" placeholder="Credit Score" required type="number" min="300" max="850"
+                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+        </div>
+        <div>
+          <label for="role" class="block text-sm font-medium text-gray-700">Role</label>
+          <select id="role" [(ngModel)]="newUser.role" name="role" required
+                  class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+            <option value="USER">User</option>
+            <option value="ADMIN">Admin</option>
+          </select>
+        </div>
+        <button type="submit"
+                class="w-full px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+          Create
+        </button>
+      </form>
+    </div>
+  
+    <!-- Update User Form -->
+    <div *ngIf="selectedUser" class="p-4 bg-white shadow rounded-lg">
+      <h3 class="text-xl font-semibold mb-4">Update User</h3>
+      <form (ngSubmit)="updateUser(selectedUser.id, updatedUser)" class="space-y-4">
+        <div>
+          <label for="updateName" class="block text-sm font-medium text-gray-700">Name</label>
+          <input id="updateName" [(ngModel)]="updatedUser.name" name="name" placeholder="Name" required maxlength="100"
+                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+        </div>
+        <div>
+          <label for="updateEmail" class="block text-sm font-medium text-gray-700">Email</label>
+          <input id="updateEmail" [(ngModel)]="updatedUser.email" name="email" placeholder="Email" required maxlength="100" type="email"
+                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+        </div>
+        <div>
+          <label for="updatePassword" class="block text-sm font-medium text-gray-700">Password</label>
+          <input id="updatePassword" [(ngModel)]="updatedUser.password" name="password" placeholder="Password" required type="password"
+                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+        </div>
+        <div>
+          <label for="updateAge" class="block text-sm font-medium text-gray-700">Age</label>
+          <input id="updateAge" [(ngModel)]="updatedUser.age" name="age" placeholder="Age" required type="number" min="18"
+                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+        </div>
+        <div>
+          <label for="updateMonthlyIncome" class="block text-sm font-medium text-gray-700">Monthly Income</label>
+          <input id="updateMonthlyIncome" [(ngModel)]="updatedUser.monthlyIncome" name="monthlyIncome" placeholder="Monthly Income" required type="number" min="0"
+                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+        </div>
+        <div>
+          <label for="updateCreditScore" class="block text-sm font-medium text-gray-700">Credit Score</label>
+          <input id="updateCreditScore" [(ngModel)]="updatedUser.creditScore" name="creditScore" placeholder="Credit Score" required type="number" min="300" max="850"
+                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+        </div>
+        <div>
+          <label for="updateRole" class="block text-sm font-medium text-gray-700">Role</label>
+          <select id="updateRole" [(ngModel)]="updatedUser.role" name="role" required
+                  class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+            <option value="USER">User</option>
+            <option value="ADMIN">Admin</option>
+          </select>
+        </div>
+        <button type="submit"
+                class="w-full px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+          Update
+        </button>
+      </form>
+    </div>
+  </div>

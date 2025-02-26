@@ -1,0 +1,24 @@
+<div class="verify-container">
+    <h2>Verify Your Email</h2>
+    <form [formGroup]="verifyForm" (ngSubmit)="onSubmit()">
+        <div>
+            <label for="email">Email:</label>
+            <input id="email" type="email" formControlName="email" />
+            <div *ngIf="verifyForm.get('email')?.invalid && verifyForm.get('email')?.touched">
+                <small *ngIf="verifyForm.get('email')?.errors?.['required']">Email is required</small>
+                <small *ngIf="verifyForm.get('email')?.errors?.['email']">Email should be valid</small>
+                <small *ngIf="verifyForm.get('email')?.errors?.['maxlength']">Email must be at most 100
+                    characters</small>
+            </div>
+        </div>
+        <div>
+            <label for="verificationCode">Verification Code:</label>
+            <input id="verificationCode" type="text" formControlName="verificationCode" />
+            <div *ngIf="verifyForm.get('verificationCode')?.invalid && verifyForm.get('verificationCode')?.touched">
+                <small *ngIf="verifyForm.get('verificationCode')?.errors?.['required']">Verification Code is
+                    required</small>
+            </div>
+        </div>
+        <button type="submit" [disabled]="verifyForm.invalid">Verify</button>
+    </form>
+</div>
