@@ -1,63 +1,37 @@
-/* Base styles */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
-body {
-  font-family: 'Inter', sans-serif;
-  color: #1a202c;
-  line-height: 1.5;
-}
-
-/* Transitions and animations */
-.transition-all {
-  transition-property: all;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 300ms;
-}
-
-.transition-colors {
-  transition-property: background-color, border-color, color, fill, stroke;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 200ms;
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #c5c5c5;
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
-}
-
-/* Sidebar styles */
-aside.sticky {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  overflow-y: auto;
-}
+/* dashboard.component.css */
 
 /* Card hover effects */
 .shadow-hover {
-  transition: box-shadow 0.3s ease;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
 
 .shadow-hover:hover {
+  transform: translateY(-3px);
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
-/* Button styles */
+/* Status indicators */
+.status-dot {
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.status-operational {
+  background-color: #10B981; /* Emerald 500 */
+}
+
+.status-partial {
+  background-color: #F59E0B; /* Amber 500 */
+}
+
+.status-down {
+  background-color: #EF4444; /* Red 500 */
+}
+
+/* Button effects */
 button {
   transition: all 0.2s ease;
 }
@@ -73,187 +47,48 @@ table {
   border-spacing: 0;
 }
 
-th {
+table th {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-size: 0.75rem;
 }
 
-tr {
+table tr {
   transition: background-color 0.2s ease;
 }
 
-tbody tr:hover {
+table tbody tr:hover {
   background-color: #f9fafb;
-}
-
-/* Status dots and badges */
-.rounded-full {
-  border-radius: 9999px;
-}
-
-/* Chart container styles */
-.chart-container {
-  position: relative;
-  height: 16rem;
-}
-
-/* Responsive layout adjustments */
-@media (max-width: 768px) {
-  aside {
-    width: 100%;
-    height: auto;
-    position: relative;
-  }
-  
-  .dashboard-container {
-    flex-direction: column;
-  }
-  
-  .main-content {
-    margin-left: 0;
-  }
-  
-  .chart-container {
-    height: 12rem;
-  }
-  
-  .stats-grid {
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-  }
-}
-
-/* Responsive navigation */
-@media (max-width: 1024px) {
-  .navigation-text {
-    display: none;
-  }
-  
-  .sidebar-collapsed {
-    width: 4rem;
-  }
-  
-  .main-content-expanded {
-    margin-left: 4rem;
-  }
-}
-
-/* Dark mode styles (if needed) */
-.dark-mode {
-  --bg-primary: #1a202c;
-  --bg-secondary: #2d3748;
-  --text-primary: #f7fafc;
-  --text-secondary: #e2e8f0;
-  --border-color: #4a5568;
-}
-
-.dark-mode body {
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-}
-
-.dark-mode .card {
-  background-color: var(--bg-secondary);
-  border-color: var(--border-color);
-}
-
-/* Additional custom styles for dashboard components */
-.stat-card {
-  display: flex;
-  flex-direction: column;
-  border-radius: 0.5rem;
-  overflow: hidden;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.stat-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-}
-
-.stat-card-header {
-  padding: 1rem;
-  background-color: #f9fafb;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.stat-card-body {
-  padding: 1.5rem;
-  flex: 1;
-}
-
-.stat-card-footer {
-  padding: 1rem;
-  background-color: #f9fafb;
-  border-top: 1px solid #e5e7eb;
 }
 
 /* Quick action buttons */
 .quick-action {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 .quick-action:hover {
   transform: translateY(-2px);
 }
 
-/* Loader animation */
-.loader {
-  border: 3px solid #f3f3f3;
-  border-radius: 50%;
-  border-top: 3px solid #3498db;
-  width: 24px;
-  height: 24px;
-  animation: spin 1s linear infinite;
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+  
+  .chart-container {
+    height: 12rem;
+  }
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+/* Custom animations */
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.7; }
+  100% { opacity: 1; }
 }
 
-/* Badges */
-.badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.25rem 0.5rem;
-  border-radius: 9999px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  line-height: 1;
-}
-
-.badge-success {
-  background-color: #def7ec;
-  color: #03543e;
-}
-
-.badge-warning {
-  background-color: #feecdc;
-  color: #9a3412;
-}
-
-.badge-danger {
-  background-color: #fde2e2;
-  color: #9b1c1c;
-}
-
-.badge-info {
-  background-color: #e1effe;
-  color: #1e429f;
-}
-
-/* Utility to truncate text with ellipsis */
-.truncate {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
