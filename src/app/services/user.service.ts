@@ -43,4 +43,12 @@ export class UserService {
     const headers = getAuthHeaders();
     return this.http.delete(url, {headers});
   }
+
+  // PATCH: Toggle user enabled status
+  toggleUserEnabled(id: number): Observable<any> {
+    const headers = getAuthHeaders();
+    const url = `${this.apiUrl}/${id}/toggle-enabled`;
+    return this.http.patch(url, {}, { headers });
+  }
+
 }
