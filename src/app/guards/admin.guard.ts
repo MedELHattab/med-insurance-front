@@ -1,3 +1,4 @@
+// admin.guard.ts
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { jwtDecode } from "jwt-decode";
@@ -13,7 +14,7 @@ interface DecodedToken {
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard implements CanActivate {
+export class AdminGuard implements CanActivate {
   constructor(private router: Router) {}
 
   canActivate(
@@ -31,34 +32,13 @@ export class AuthGuard implements CanActivate {
     try {
       // Decode the token to get user information
       const decodedToken: DecodedToken = jwtDecode(token);
-
-      // Check if the token is expired
-      const currentTime = new Date().getTime() / 1000; // Convert to seconds
-      if (decodedToken.exp < currentTime) {
-        alert('Session expired. Please log in again.');
-        this.router.navigate(['/login']);
-        return false;
-      }
       
       // Extract role from the token
       const userRole = this.extractRoleFromToken(decodedToken);
       
-      // Check if route requires specific roles
-      const requiredRoles = route.data['roles'] as Array<string>;
-      
-      if (requiredRoles && requiredRoles.length > 0) {
-        // If specific roles are required, check if user has any of them
-        const hasRequiredRole = requiredRoles.some(role => userRole === role);
-        
-        if (!hasRequiredRole) {
-          this.router.navigate(['/unauthorized']);
-          return false;
-        }
-      }
-      
-      // For admin-only routes
-      if (route.data['adminOnly'] === true && userRole !== 'ADMIN') {
-        this.router.navigate(['/unauthorized']);
+      // Check if user is an admin
+      if (userRole !== 'ADMIN') {
+        this.router.navigate(['/login']);
         return false;
       }
       

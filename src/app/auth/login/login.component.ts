@@ -82,7 +82,7 @@ export class LoginComponent implements OnInit {
               this.router.navigate(['/user/profile']);
               break;
             case 'EMPLOYEE':
-              this.router.navigate(['/employee/client-view']);
+              this.router.navigate(['admin/dashboard']);
               break;
             default:
               this.router.navigate(['/home']);

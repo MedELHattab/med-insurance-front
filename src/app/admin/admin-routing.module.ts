@@ -2,13 +2,14 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component'; // Correct standalone path
 import { UsersManagementComponent } from './users-management/users-management.component';
-import { AuthGuard } from '../auth.guard';
+import { AdminGuard } from '../guards/admin.guard';
 import { PoliciesComponent } from './policies/policies.component';
+import { EmployeeGuard } from '../guards/employee.guard';
 
 const routes: Routes = [
-  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-  { path: 'users-management', component: UsersManagementComponent, canActivate: [AuthGuard] },
-  { path: 'policies', component: PoliciesComponent, canActivate: [AuthGuard] },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [EmployeeGuard] },
+  { path: 'users-management', component: UsersManagementComponent, canActivate: [AdminGuard] },
+  { path: 'policies', component: PoliciesComponent, canActivate: [AdminGuard] },
 
 ];
 

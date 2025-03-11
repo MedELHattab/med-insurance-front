@@ -3,7 +3,7 @@ import { provideRouter } from '@angular/router';
 import { provideHttpClient, withInterceptors } from '@angular/common/http'; // Import provideHttpClient and withInterceptors
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { authInterceptor } from './auth.interceptor'; // Import your interceptor
+import { authInterceptor } from './interceptors/auth.interceptor'; // Import your interceptor
 import { provideClientHydration } from '@angular/platform-browser';
 
 

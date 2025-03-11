@@ -1,21 +1,32 @@
-// sidebar.component.ts
-import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [RouterModule, CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './sidebare.component.html',
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit {
+  isAdmin = false;
+  isEmployee = false;
+
   constructor(private authService: AuthService) {}
 
-  logout(): void {
+  ngOnInit() {
+    this.checkUserRole();
+  }
+
+  checkUserRole() {
+    const userRole = this.authService.getUserRole();
+    this.isAdmin = userRole === 'ADMIN';
+    this.isEmployee = userRole === 'EMPLOYEE';
+  }
+
+  logout() {
     this.authService.logout();
-    // Redirect to login page or home page as appropriate
     window.location.href = '/auth/login';
   }
 }
