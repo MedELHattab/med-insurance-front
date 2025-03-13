@@ -97,6 +97,16 @@ export class ClaimsComponent implements OnInit {
         this.calculateTotalPages();
         this.paginateClaims();
         this.isLoading = false;
+        
+        // If a claim is selected, refresh its data
+        if (this.selectedClaim) {
+          const updatedClaim = this.claims.find(c => c.id === this.selectedClaim?.id);
+          if (updatedClaim) {
+            this.selectedClaim = updatedClaim;
+            // Also refresh the refund information
+            this.selectedClaimRefund = this.findRefundForClaim(updatedClaim.id!);
+          }
+        }
       },
       error: (error) => {
         this.isLoading = false;
@@ -110,11 +120,21 @@ export class ClaimsComponent implements OnInit {
     this.refundService.getAllRefunds().subscribe({
       next: (data) => {
         this.refunds = data;
+        
+        // If a claim is selected, refresh its refund data
+        if (this.selectedClaim && this.selectedClaim.id) {
+          this.selectedClaimRefund = this.findRefundForClaim(this.selectedClaim.id);
+        }
       },
       error: (error) => {
         console.error('Error loading refunds', error);
       }
     });
+  }
+
+  isRefundPaid(refund: RefundDTO): boolean {
+    // Check both possible property names for paid status
+    return refund.paid === true || (refund as any).paid === true;
   }
   
   selectClaim(claim: ClaimDTO): void {
@@ -144,6 +164,10 @@ export class ClaimsComponent implements OnInit {
     }
   }
   
+  getImageUrl(filename: string): string {
+    return this.claimService.getImageUrl(filename);
+  }
+  
   updateClaimStatus(claimId: number, newStatus: ClaimStatus): void {
     Swal.fire({
       title: 'Update Status',
@@ -157,7 +181,16 @@ export class ClaimsComponent implements OnInit {
         this.claimService.updateClaimStatus(claimId, newStatus).subscribe({
           next: () => {
             Swal.fire('Updated!', 'Claim status has been updated.', 'success');
-            this.loadClaims();
+            
+            // When a claim is approved, a refund is automatically created
+            if (newStatus === ClaimStatus.APPROVED) {
+              // Instead of showing the refund creation popup, just refresh to see the auto-created refund
+              this.loadClaims();
+              this.loadRefunds();
+            } else {
+              this.loadClaims();
+            }
+            
             if (this.selectedClaim && this.selectedClaim.id === claimId) {
               this.selectedClaim.status = newStatus;
             }
@@ -165,66 +198,6 @@ export class ClaimsComponent implements OnInit {
           error: (error) => {
             Swal.fire('Error', 'Failed to update claim status', 'error');
             console.error('Error updating claim status', error);
-          }
-        });
-      }
-    });
-  }
-  
-  processRefund(claimId: number): void {
-    const claim = this.claims.find(c => c.id === claimId);
-    if (!claim) return;
-    
-    Swal.fire({
-      title: 'Process Refund',
-      text: 'Enter refund amount and reference',
-      html:
-        '<div class="mb-3">' +
-        '<label class="form-label">Amount</label>' +
-        '<input id="swal-amount" class="swal2-input" type="number" placeholder="Amount">' +
-        '</div>' +
-        '<div class="mb-3">' +
-        '<label class="form-label">Reference</label>' +
-        '<input id="swal-reference" class="swal2-input" placeholder="Reference">' +
-        '</div>',
-      focusConfirm: false,
-      showCancelButton: true,
-      confirmButtonText: 'Process',
-      preConfirm: () => {
-        const amountInput = document.getElementById('swal-amount') as HTMLInputElement;
-        const referenceInput = document.getElementById('swal-reference') as HTMLInputElement;
-        
-        const amount = parseFloat(amountInput.value);
-        const reference = referenceInput.value;
-        
-        if (!amount || isNaN(amount) || amount <= 0) {
-          Swal.showValidationMessage('Please enter a valid amount');
-          return false;
-        }
-        
-        if (!reference) {
-          Swal.showValidationMessage('Please enter a reference');
-          return false;
-        }
-        
-        return { amount, reference };
-      }
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const { amount, reference } = result.value as { amount: number, reference: string };
-        
-        // Create a refund DTO object - simulate the API call since we don't have a createRefund method
-        Swal.fire({
-          title: 'Processing...',
-          text: 'Creating refund record',
-          allowOutsideClick: false,
-          didOpen: () => {
-            Swal.showLoading();
-            setTimeout(() => {
-              Swal.fire('Success', 'Refund has been processed successfully', 'success');
-              this.loadRefunds();
-              this.loadClaims();
-            }, 1500);
           }
         });
       }
@@ -244,9 +217,13 @@ export class ClaimsComponent implements OnInit {
         this.refundService.updatePaymentStatus(refundId, true).subscribe({
           next: () => {
             Swal.fire('Updated!', 'Refund has been marked as paid.', 'success');
+            
+            // Ensure we refresh the refunds data to get the updated payment status
             this.loadRefunds();
+            
+            // Also directly update the selected refund to avoid waiting for the reload
             if (this.selectedClaimRefund && this.selectedClaimRefund.id === refundId) {
-              this.selectedClaimRefund.isPaid = true;
+              this.selectedClaimRefund.paid = true;
             }
           },
           error: (error) => {
@@ -264,6 +241,7 @@ export class ClaimsComponent implements OnInit {
         !this.searchText ||
         (claim.userId && claim.userId.toString().includes(this.searchText)) ||
         (claim.userName && claim.userName.toLowerCase().includes(this.searchText.toLowerCase())) ||
+        (claim.userEmail && claim.userEmail.toLowerCase().includes(this.searchText.toLowerCase())) ||
         (claim.policyName && claim.policyName.toLowerCase().includes(this.searchText.toLowerCase())) ||
         claim.description.toLowerCase().includes(this.searchText.toLowerCase());
       

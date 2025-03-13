@@ -1,350 +1,354 @@
 <div class="min-h-screen bg-gray-50">
-    <!-- Top Navigation -->
-    <nav class="bg-indigo-600 text-white shadow-md">
-      <div class="flex justify-between items-center px-6 py-3">
-        <div class="flex items-center">
-          <span class="text-xl font-bold">Insurance Admin</span>
-        </div>
-        <div class="flex items-center space-x-4">
-          <button class="p-1 rounded-full hover:bg-indigo-500 focus:outline-none">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+  <!-- Top Navigation -->
+  <nav class="bg-indigo-600 text-white shadow-md">
+    <div class="flex justify-between items-center px-6 py-3">
+      <div class="flex items-center">
+        <span class="text-xl font-bold">Insurance Admin</span>
+      </div>
+      <div class="flex items-center space-x-4">
+        <button class="p-1 rounded-full hover:bg-indigo-500 focus:outline-none">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+          </svg>
+        </button>
+        <div class="relative">
+          <button class="flex items-center space-x-2 focus:outline-none">
+            <img class="h-8 w-8 rounded-full object-cover"
+              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+              alt="User profile">
+            <span>Admin User</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
             </svg>
           </button>
-          <div class="relative">
-            <button class="flex items-center space-x-2 focus:outline-none">
-              <img class="h-8 w-8 rounded-full object-cover"
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                alt="User profile">
-              <span>Admin User</span>
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-              </svg>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="flex">
+    <!-- Sidebar Component -->
+    <app-sidebar></app-sidebar>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-6 overflow-y-auto">
+      <div class="container mx-auto">
+        <!-- Page Header -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+          <div class="flex justify-between items-center">
+            <div>
+              <h1 class="text-2xl font-bold text-gray-800">Claims Management</h1>
+              <p class="text-gray-600">Monitor and manage insurance claims</p>
+            </div>
+            <button (click)="loadClaims()"
+              class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+              <span class="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                Refresh
+              </span>
             </button>
           </div>
         </div>
-      </div>
-    </nav>
-  
-    <div class="flex">
-      <!-- Sidebar Component -->
-      <app-sidebar></app-sidebar>
-  
-      <!-- Main Content -->
-      <main class="flex-1 p-6 overflow-y-auto">
-        <div class="container mx-auto">
-          <!-- Page Header -->
-          <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-            <div class="flex justify-between items-center">
-              <div>
-                <h1 class="text-2xl font-bold text-gray-800">Claims Management</h1>
-                <p class="text-gray-600">Monitor and manage insurance claims</p>
-              </div>
-              <button (click)="loadClaims()"
-                class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                <span class="flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                  </svg>
-                  Refresh
-                </span>
-              </button>
-            </div>
-          </div>
-  
-          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- Claims List -->
-            <div class="lg:col-span-2">
-              <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-                  <h2 class="text-lg font-semibold text-gray-700">Claims</h2>
-                  
-                  <!-- Filters Section -->
-                  <div class="flex space-x-2">
-                    <div class="relative">
-                      <input
-                        type="text"
-                        placeholder="Search claims..."
-                        [(ngModel)]="searchText"
-                        (keyup)="applyFilters()"
-                        class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
-                      />
-                    </div>
-                    <div class="relative">
-                      <select
-                        [(ngModel)]="filterStatus"
-                        (change)="applyFilters()"
-                        class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
-                      >
-                        <option value="">All Statuses</option>
-                        <option [value]="ClaimStatus.PENDING">Pending</option>
-                        <option [value]="ClaimStatus.APPROVED">Approved</option>
-                        <option [value]="ClaimStatus.REJECTED">Rejected</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-  
-                <!-- Loading State -->
-                <div *ngIf="isLoading" class="p-8 flex justify-center">
-                  <div class="loader"></div>
-                </div>
-  
-                <!-- Claims List -->
-                <div class="overflow-x-auto" *ngIf="!isLoading">
-                  <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                      <tr>
-                        <th scope="col"
-                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
-                        <th scope="col"
-                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Policy
-                        </th>
-                        <th scope="col"
-                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date
-                        </th>
-                        <th scope="col"
-                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status
-                        </th>
-                        <th scope="col"
-                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                      <tr *ngFor="let claim of displayedClaims">
-                        <td class="px-6 py-4 whitespace-nowrap">
-                          <div class="text-sm font-medium text-gray-900">{{claim.userName}}</div>
-                          <div class="text-xs text-gray-500">ID: {{claim.userId}}</div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                          <div class="text-sm font-medium text-gray-900">{{claim.policyName}}</div>
-                          <div class="text-xs text-gray-500 truncate max-w-xs">{{claim.description}}</div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {{claim.createdAt | date:'MMM d, y'}}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                          <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
-                            [ngClass]="getStatusClass(claim.status)">
-                            {{claim.status}}
-                          </span>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                          <button (click)="selectClaim(claim)" class="text-indigo-600 hover:text-indigo-900 mr-3">
-                            View
-                          </button>
-                        </td>
-                      </tr>
-                      <tr *ngIf="displayedClaims.length === 0">
-                        <td colspan="5" class="px-6 py-4 text-center text-gray-500">
-                          No claims found
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- Claims List -->
+          <div class="lg:col-span-2">
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+              <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                <h2 class="text-lg font-semibold text-gray-700">Claims</h2>
                 
-                <!-- Pagination -->
-                <div class="px-6 py-3 flex items-center justify-between border-t border-gray-200">
-                  <div class="flex-1 flex justify-between sm:hidden">
-                    <button 
-                      (click)="changePage(currentPage - 1)" 
-                      [disabled]="currentPage === 1"
-                      [ngClass]="{'opacity-50 cursor-not-allowed': currentPage === 1}"
-                      class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-                    >
-                      Previous
-                    </button>
-                    <button 
-                      (click)="changePage(currentPage + 1)" 
-                      [disabled]="currentPage === totalPages"
-                      [ngClass]="{'opacity-50 cursor-not-allowed': currentPage === totalPages}"
-                      class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-                    >
-                      Next
-                    </button>
+                <!-- Filters Section -->
+                <div class="flex space-x-2">
+                  <div class="relative">
+                    <input
+                      type="text"
+                      placeholder="Search claims..."
+                      [(ngModel)]="searchText"
+                      (keyup)="applyFilters()"
+                      class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+                    />
                   </div>
-                  <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                    <div>
-                      <p class="text-sm text-gray-700">
-                        Showing
-                        <span class="font-medium">{{ filteredClaims.length > 0 ? ((currentPage - 1) * pageSize) + 1 : 0 }}</span>
-                        to
-                        <span class="font-medium">{{ Math.min(currentPage * pageSize, filteredClaims.length) }}</span>
-                        of
-                        <span class="font-medium">{{ filteredClaims.length }}</span>
-                        results
-                      </p>
-                    </div>
-                    <div>
-                      <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination" *ngIf="totalPages > 0">
-                        <!-- Previous Page -->
-                        <button 
-                          (click)="changePage(currentPage - 1)" 
-                          [disabled]="currentPage === 1"
-                          [ngClass]="{'opacity-50 cursor-not-allowed': currentPage === 1}"
-                          class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-                        >
-                          <span class="sr-only">Previous</span>
-                          <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                            <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-                          </svg>
-                        </button>
-                        
-                        <!-- Page Numbers -->
-                        <ng-container *ngFor="let page of [].constructor(totalPages); let i = index">
-                          <button 
-                            (click)="changePage(i + 1)"
-                            [ngClass]="{'bg-indigo-50 border-indigo-500 text-indigo-600': currentPage === i + 1, 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50': currentPage !== i + 1}"
-                            class="relative inline-flex items-center px-4 py-2 border text-sm font-medium"
-                          >
-                            {{ i + 1 }}
-                          </button>
-                        </ng-container>
-                        
-                        <!-- Next Page -->
-                        <button 
-                          (click)="changePage(currentPage + 1)" 
-                          [disabled]="currentPage === totalPages"
-                          [ngClass]="{'opacity-50 cursor-not-allowed': currentPage === totalPages}"
-                          class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-                        >
-                          <span class="sr-only">Next</span>
-                          <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                          </svg>
-                        </button>
-                      </nav>
-                    </div>
+                  <div class="relative">
+                    <select
+                      [(ngModel)]="filterStatus"
+                      (change)="applyFilters()"
+                      class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+                    >
+                      <option value="">All Statuses</option>
+                      <option [value]="ClaimStatus.PENDING">Pending</option>
+                      <option [value]="ClaimStatus.APPROVED">Approved</option>
+                      <option [value]="ClaimStatus.REJECTED">Rejected</option>
+                    </select>
                   </div>
                 </div>
+              </div>
+
+              <!-- Loading State -->
+              <div *ngIf="isLoading" class="p-8 flex justify-center">
+                <div class="loader"></div>
+              </div>
+
+              <!-- Claims List -->
+              <div class="overflow-x-auto" *ngIf="!isLoading">
+                <table class="min-w-full divide-y divide-gray-200">
+                  <thead class="bg-gray-50">
+                    <tr>
+                      <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
+                      <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Policy
+                      </th>
+                      <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date
+                      </th>
+                      <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status
+                      </th>
+                      <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody class="bg-white divide-y divide-gray-200">
+                    <tr *ngFor="let claim of displayedClaims">
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-medium text-gray-900">{{claim.userName}}</div>
+                        <div class="text-xs text-gray-500">ID: {{claim.userId}}</div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-medium text-gray-900">{{claim.policyName}}</div>
+                        <div class="text-xs text-gray-500 truncate max-w-xs">{{claim.description}}</div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {{claim.createdAt | date:'MMM d, y'}}
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
+                          [ngClass]="getStatusClass(claim.status)">
+                          {{claim.status}}
+                        </span>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <button (click)="selectClaim(claim)" class="text-indigo-600 hover:text-indigo-900 mr-3">
+                          View
+                        </button>
+                      </td>
+                    </tr>
+                    <tr *ngIf="displayedClaims.length === 0">
+                      <td colspan="5" class="px-6 py-4 text-center text-gray-500">
+                        No claims found
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
               
-              <!-- No Selection State -->
-              <div *ngIf="!selectedClaim" class="bg-white rounded-lg shadow-md overflow-hidden">
-                <div class="p-6 text-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                  <h3 class="mt-2 text-sm font-medium text-gray-900">No claim selected</h3>
-                  <p class="mt-1 text-sm text-gray-500">
-                    Select a claim from the list to view details
-                  </p>
+              <!-- Pagination -->
+              <div class="px-6 py-3 flex items-center justify-between border-t border-gray-200">
+                <div class="flex-1 flex justify-between sm:hidden">
+                  <button 
+                    (click)="changePage(currentPage - 1)" 
+                    [disabled]="currentPage === 1"
+                    [ngClass]="{'opacity-50 cursor-not-allowed': currentPage === 1}"
+                    class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                  >
+                    Previous
+                  </button>
+                  <button 
+                    (click)="changePage(currentPage + 1)" 
+                    [disabled]="currentPage === totalPages"
+                    [ngClass]="{'opacity-50 cursor-not-allowed': currentPage === totalPages}"
+                    class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                  >
+                    Next
+                  </button>
+                </div>
+                <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                  <div>
+                    <p class="text-sm text-gray-700">
+                      Showing
+                      <span class="font-medium">{{ filteredClaims.length > 0 ? ((currentPage - 1) * pageSize) + 1 : 0 }}</span>
+                      to
+                      <span class="font-medium">{{ Math.min(currentPage * pageSize, filteredClaims.length) }}</span>
+                      of
+                      <span class="font-medium">{{ filteredClaims.length }}</span>
+                      results
+                    </p>
+                  </div>
+                  <div>
+                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination" *ngIf="totalPages > 0">
+                      <!-- Previous Page -->
+                      <button 
+                        (click)="changePage(currentPage - 1)" 
+                        [disabled]="currentPage === 1"
+                        [ngClass]="{'opacity-50 cursor-not-allowed': currentPage === 1}"
+                        class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                      >
+                        <span class="sr-only">Previous</span>
+                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                          <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                      </button>
+                      
+                      <!-- Page Numbers -->
+                      <ng-container *ngFor="let page of [].constructor(totalPages); let i = index">
+                        <button 
+                          (click)="changePage(i + 1)"
+                          [ngClass]="{'bg-indigo-50 border-indigo-500 text-indigo-600': currentPage === i + 1, 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50': currentPage !== i + 1}"
+                          class="relative inline-flex items-center px-4 py-2 border text-sm font-medium"
+                        >
+                          {{ i + 1 }}
+                        </button>
+                      </ng-container>
+                      
+                      <!-- Next Page -->
+                      <button 
+                        (click)="changePage(currentPage + 1)" 
+                        [disabled]="currentPage === totalPages"
+                        [ngClass]="{'opacity-50 cursor-not-allowed': currentPage === totalPages}"
+                        class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                      >
+                        <span class="sr-only">Next</span>
+                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                          <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                        </svg>
+                      </button>
+                    </nav>
+                  </div>
                 </div>
               </div>
             </div>
-  
-            <!-- Claim Details -->
-            <div class="lg:col-span-1">
-              <!-- Selected Claim Details -->
-              <div *ngIf="selectedClaim" class="bg-white rounded-lg shadow-md overflow-hidden mb-6">
-                <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-                  <h2 class="text-lg font-semibold text-gray-700">Claim Details</h2>
-                  <button (click)="resetSelection()" class="text-gray-400 hover:text-gray-500">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                      stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                </div>
-                <div class="p-6">
-                  <div class="space-y-4">
-                    <div>
-                      <p class="text-sm font-medium text-gray-500">User</p>
-                      <p class="mt-1 text-sm text-gray-900">{{selectedClaim.userName}}</p>
+            
+            <!-- No Selection State -->
+            <div *ngIf="!selectedClaim" class="bg-white rounded-lg shadow-md overflow-hidden">
+              <div class="p-6 text-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <h3 class="mt-2 text-sm font-medium text-gray-900">No claim selected</h3>
+                <p class="mt-1 text-sm text-gray-500">
+                  Select a claim from the list to view details
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Claim Details -->
+          <div class="lg:col-span-1">
+            <!-- Selected Claim Details -->
+            <div *ngIf="selectedClaim" class="bg-white rounded-lg shadow-md overflow-hidden mb-6">
+              <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                <h2 class="text-lg font-semibold text-gray-700">Claim Details</h2>
+                <button (click)="resetSelection()" class="text-gray-400 hover:text-gray-500">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              <div class="p-6">
+                <div class="space-y-4">
+                  <div>
+                    <p class="text-sm font-medium text-gray-500">User</p>
+                    <p class="mt-1 text-sm text-gray-900">{{selectedClaim.userName}}</p>
+                  </div>
+                  
+                  <div>
+                    <p class="text-sm font-medium text-gray-500">Policy</p>
+                    <p class="mt-1 text-sm text-gray-900">{{selectedClaim.policyName}}</p>
+                  </div>
+                  
+                  <div>
+                    <p class="text-sm font-medium text-gray-500">Date Filed</p>
+                    <p class="mt-1 text-sm text-gray-900">{{selectedClaim.createdAt | date:'longDate'}}</p>
+                  </div>
+                  
+                  <div>
+                    <p class="text-sm font-medium text-gray-500">Description</p>
+                    <p class="mt-1 text-sm text-gray-900">{{selectedClaim.description}}</p>
+                  </div>
+                  
+                  <div *ngIf="selectedClaim.image">
+                    <p class="text-sm font-medium text-gray-500">Supporting Image</p>
+                    <div class="mt-2">
+                      <img [src]="getImageUrl(selectedClaim.image)" alt="Claim evidence" class="claim-image rounded-md">
                     </div>
-                    
-                    <div>
-                      <p class="text-sm font-medium text-gray-500">Policy</p>
-                      <p class="mt-1 text-sm text-gray-900">{{selectedClaim.policyName}}</p>
-                    </div>
-                    
-                    <div>
-                      <p class="text-sm font-medium text-gray-500">Date Filed</p>
-                      <p class="mt-1 text-sm text-gray-900">{{selectedClaim.createdAt | date:'longDate'}}</p>
-                    </div>
-                    
-                    <div>
-                      <p class="text-sm font-medium text-gray-500">Description</p>
-                      <p class="mt-1 text-sm text-gray-900">{{selectedClaim.description}}</p>
-                    </div>
-                    
-                    <div *ngIf="selectedClaim.image">
-                      <p class="text-sm font-medium text-gray-500">Supporting Image</p>
-                      <div class="mt-2">
-                        <img [src]="selectedClaim.image" alt="Claim evidence" class="claim-image rounded-md">
+                  </div>
+                  
+                  <div>
+                    <p class="text-sm font-medium text-gray-500">Current Status</p>
+                    <p class="mt-1">
+                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
+                            [ngClass]="getStatusClass(selectedClaim.status)">
+                        {{selectedClaim.status}}
+                      </span>
+                    </p>
+                  </div>
+                  
+                  <!-- Refund Information -->
+                  <div *ngIf="selectedClaimRefund" class="pt-4 border-t border-gray-200">
+                    <p class="text-sm font-medium text-gray-700 mb-2">Refund Information</p>
+                    <div class="space-y-2">
+                      <div>
+                        <p class="text-xs text-gray-500">Amount</p>
+                        <p class="text-sm font-medium">${{selectedClaimRefund.amount | number:'1.2-2'}}</p>
                       </div>
-                    </div>
-                    
-                    <div>
-                      <p class="text-sm font-medium text-gray-500">Current Status</p>
-                      <p class="mt-1">
-                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
-                              [ngClass]="getStatusClass(selectedClaim.status)">
-                          {{selectedClaim.status}}
+                      <div>
+                        <p class="text-xs text-gray-500">Reference</p>
+                        <p class="text-sm font-medium">{{selectedClaimRefund.reference}}</p>
+                      </div>
+                      <div>
+                        <p class="text-xs text-gray-500">Date</p>
+                        <p class="text-sm font-medium">{{selectedClaimRefund.createdAt | date:'shortDate'}}</p>
+                      </div>
+                      <div>
+                        <p class="text-xs text-gray-500">Status</p>
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full" 
+                          [ngClass]="selectedClaimRefund.paid ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'">
+                          {{selectedClaimRefund.paid ? 'Paid' : 'Pending'}}
                         </span>
-                      </p>
-                    </div>
-                    
-                    <!-- Refund Information -->
-                    <div *ngIf="selectedClaimRefund" class="pt-4 border-t border-gray-200">
-                      <p class="text-sm font-medium text-gray-700 mb-2">Refund Information</p>
-                      <div class="space-y-2">
-                        <div>
-                          <p class="text-xs text-gray-500">Amount</p>
-                          <p class="text-sm font-medium">${{selectedClaimRefund.amount | number:'1.2-2'}}</p>
-                        </div>
-                        <div>
-                          <p class="text-xs text-gray-500">Reference</p>
-                          <p class="text-sm font-medium">{{selectedClaimRefund.reference}}</p>
-                        </div>
-                        <div>
-                          <p class="text-xs text-gray-500">Date</p>
-                          <p class="text-sm font-medium">{{selectedClaimRefund.createdAt | date:'shortDate'}}</p>
-                        </div>
-                        <div>
-                          <p class="text-xs text-gray-500">Status</p>
-                          <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full" 
-                            [ngClass]="selectedClaimRefund.isPaid ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'">
-                            {{selectedClaimRefund.isPaid ? 'Paid' : 'Pending'}}
-                          </span>
-                        </div>
-                        <div *ngIf="!selectedClaimRefund.isPaid && (isAdmin || isEmployee)">
-                          <button 
-                            (click)="markRefundAsPaid(selectedClaimRefund.id!)" 
-                            class="mt-2 px-2 py-1 bg-green-600 text-white text-xs font-medium rounded hover:bg-green-700">
-                            Mark as Paid
-                          </button>
-                        </div>
                       </div>
-                    </div>
-                    
-                    <!-- Status Update Options (for EMPLOYEE and ADMIN) -->
-                    <div *ngIf="(isAdmin || isEmployee)" class="pt-4 border-t border-gray-200">
-                      <p class="text-sm font-medium text-gray-700 mb-2">Update Status</p>
-                      <div class="grid grid-cols-2 gap-2">
+                      <div *ngIf="!selectedClaimRefund.paid && (isAdmin || isEmployee)">
                         <button 
-                          *ngIf="selectedClaim.status === ClaimStatus.PENDING"
-                          (click)="updateClaimStatus(selectedClaim.id!, ClaimStatus.APPROVED)"
-                          class="px-2 py-1 bg-green-600 text-white text-xs font-medium rounded hover:bg-green-700">
-                          Approve
-                        </button>
-                        <button 
-                          *ngIf="selectedClaim.status === ClaimStatus.PENDING"
-                          (click)="updateClaimStatus(selectedClaim.id!, ClaimStatus.REJECTED)"
-                          class="px-2 py-1 bg-red-600 text-white text-xs font-medium rounded hover:bg-red-700">
-                          Reject
-                        </button>
-                        <button 
-                          *ngIf="selectedClaim.status === ClaimStatus.APPROVED && !selectedClaimRefund"
-                          (click)="processRefund(selectedClaim.id!)"
-                          class="px-2 py-1 bg-blue-600 text-white text-xs font-medium rounded hover:bg-blue-700 col-span-2">
-                          Process Refund
+                          (click)="markRefundAsPaid(selectedClaimRefund.id!)" 
+                          class="mt-2 px-2 py-1 bg-green-600 text-white text-xs font-medium rounded hover:bg-green-700">
+                          Mark as Paid
                         </button>
                       </div>
                     </div>
+                  </div>
+                  
+                  <!-- Status Update Options (for EMPLOYEE and ADMIN) -->
+                  <div *ngIf="(isAdmin || isEmployee)" class="pt-4 border-t border-gray-200">
+                    <p class="text-sm font-medium text-gray-700 mb-2">Update Status</p>
+                    <div class="grid grid-cols-2 gap-2">
+                      <button 
+                        *ngIf="selectedClaim.status === ClaimStatus.PENDING"
+                        (click)="updateClaimStatus(selectedClaim.id!, ClaimStatus.APPROVED)"
+                        class="px-2 py-1 bg-green-600 text-white text-xs font-medium rounded hover:bg-green-700">
+                        Approve
+                      </button>
+                      <button 
+                        *ngIf="selectedClaim.status === ClaimStatus.PENDING"
+                        (click)="updateClaimStatus(selectedClaim.id!, ClaimStatus.REJECTED)"
+                        class="px-2 py-1 bg-red-600 text-white text-xs font-medium rounded hover:bg-red-700">
+                        Reject
+                      </button>
+                      <!-- Removed the Process Refund button since refunds are created automatically -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>

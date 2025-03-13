@@ -11,7 +11,7 @@ export interface RefundDTO {
   amount: number;
   reference: string;
   createdAt?: string;
-  isPaid: boolean;
+  paid: boolean;
 }
 
 @Injectable({

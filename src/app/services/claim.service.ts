@@ -14,6 +14,7 @@ export interface ClaimDTO {
   userId?: number;
   policyId?: number;
   userName?: string;
+  userEmail?: string;
   policyName?: string;
   description: string;
   image?: string;
@@ -26,6 +27,7 @@ export interface ClaimDTO {
 })
 export class ClaimService {
   private apiUrl = 'http://localhost:8080/api/claims';
+  private uploadUrl = 'http://localhost:8080/api/uploads/';
   
   constructor(private http: HttpClient) {}
   
@@ -57,5 +59,11 @@ export class ClaimService {
   submitClaim(claim: ClaimDTO): Observable<ClaimDTO> {
     const headers = getAuthHeaders();
     return this.http.post<ClaimDTO>(this.apiUrl, claim, { headers });
+  }
+  
+  // Helper method to get the full image URL
+  getImageUrl(imageFilename: string): string {
+    if (!imageFilename) return '';
+    return this.uploadUrl + imageFilename;
   }
 }
