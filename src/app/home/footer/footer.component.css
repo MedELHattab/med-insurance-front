@@ -1,0 +1,74 @@
+/* Add Font Awesome icons support */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css');
+
+/* Smooth transitions */
+.transition {
+  transition: all 0.3s ease;
+}
+
+/* Social media icons hover effects */
+.fab {
+  padding: 8px;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  text-align: center;
+  line-height: 20px;
+  background-color: rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.fab:hover {
+  background-color: #4f46e5;
+  transform: translateY(-3px);
+}
+
+/* Footer links hover effect */
+a.text-gray-400 {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+a.text-gray-400:hover {
+  padding-left: 5px;
+}
+
+a.text-gray-400::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 1px;
+  background-color: white;
+  transition: width 0.3s ease;
+}
+
+a.text-gray-400:hover::before {
+  width: 100%;
+}
+
+/* Form focus styles */
+input:focus {
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.3);
+}
+
+button[type="submit"] {
+  transition: all 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  transform: translateX(3px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .grid {
+    row-gap: 2rem;
+  }
+}

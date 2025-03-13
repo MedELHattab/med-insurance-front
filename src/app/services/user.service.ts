@@ -7,9 +7,9 @@ import { getAuthHeaders } from '../auth.utils';
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'http://localhost:8080/api/users'; 
-  
-  constructor(private http: HttpClient) {}
+  private apiUrl = 'http://localhost:8080/api/users';
+
+  constructor(private http: HttpClient) { }
 
   // GET: Fetch all users
   getUsers(): Observable<any> {
@@ -27,7 +27,7 @@ export class UserService {
   // POST: Create a new user
   createUser(user: any): Observable<any> {
     const headers = getAuthHeaders();
-    return this.http.post(this.apiUrl, user,  { headers });
+    return this.http.post(this.apiUrl, user, { headers });
   }
 
   // PUT: Update an existing user
@@ -41,7 +41,7 @@ export class UserService {
   deleteUser(id: number): Observable<any> {
     const url = `${this.apiUrl}/${id}`;
     const headers = getAuthHeaders();
-    return this.http.delete(url, {headers});
+    return this.http.delete(url, { headers });
   }
 
   // PATCH: Toggle user enabled status
@@ -50,5 +50,37 @@ export class UserService {
     const url = `${this.apiUrl}/${id}/toggle-enabled`;
     return this.http.patch(url, {}, { headers });
   }
+  /**
+ * Gets the current user's profile information
+ */
+  getUserProfile(): Observable<any> {
+    const headers = getAuthHeaders();
+    return this.http.get(`${this.apiUrl}/profile`, { headers });
+  }
 
+  /**
+   * Updates the user's profile information
+   * @param profileData Updated user profile data
+   */
+  updateProfile(profileData: any): Observable<any> {
+    const headers = getAuthHeaders();
+    return this.http.put(`${this.apiUrl}/profile`, profileData, { headers });
+  }
+
+  /**
+   * Changes the user's password
+   * @param currentPassword Current password
+   * @param newPassword New password
+   */
+  changePassword(currentPassword: string, newPassword: string): Observable<any> {
+    const headers = getAuthHeaders();
+    const data = {
+      currentPassword,
+      newPassword
+    };
+    return this.http.post(`${this.apiUrl}/change-password`, data, {
+      headers,
+      responseType: 'text' as 'json' // This tells Angular to treat the response as text
+    });
+  }
 }

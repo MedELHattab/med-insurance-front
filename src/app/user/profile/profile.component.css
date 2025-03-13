@@ -1,0 +1,65 @@
+/* Loading spinner */
+.loader {
+    border: 3px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 3px solid #4f46e5;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  /* Form field styles */
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+  }
+  
+  input.ng-invalid.ng-touched {
+    border-color: #ef4444;
+  }
+  
+  input.ng-invalid.ng-touched:focus {
+    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
+  }
+  
+  /* Transition effects */
+  .transition-colors {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+  
+  /* Hover effect for profile cards */
+  .bg-white {
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .bg-white:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .container {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+    
+    .grid {
+      row-gap: 1.5rem;
+    }
+  }
+  
+  /* Button hover effects */
+  button:not([disabled]):hover {
+    transform: translateY(-1px);
+    transition: transform 0.2s ease;
+  }
+  
+  button:not([disabled]):active {
+    transform: translateY(0);
+  }

@@ -1,1 +1,274 @@
-<p>profile works!</p>
+<!-- Include the header component -->
+<app-header></app-header>
+
+<div class="min-h-screen bg-gray-50 py-8">
+  <div class="container mx-auto px-4">
+    <!-- Page Header -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+      <div class="flex justify-between items-center">
+        <div>
+          <h1 class="text-2xl font-bold text-gray-800">My Profile</h1>
+          <p class="text-gray-600">Manage your account details and subscription</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="flex justify-center py-12">
+      <div class="loader"></div>
+    </div>
+
+    <!-- Content -->
+    <div *ngIf="!isLoading" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Profile Information -->
+      <div class="md:col-span-2">
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+          <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+            <h2 class="text-lg font-semibold text-gray-700">Profile Information</h2>
+            <button 
+              (click)="toggleEditMode()" 
+              class="px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+              [ngClass]="{'bg-indigo-600 hover:bg-indigo-700 text-white': !isEditMode, 'bg-gray-300 hover:bg-gray-400 text-gray-700': isEditMode}">
+              {{ isEditMode ? 'Cancel' : 'Edit Profile' }}
+            </button>
+          </div>
+
+          <div class="p-6">
+            <form *ngIf="isEditMode" (ngSubmit)="updateProfile()" #profileForm="ngForm">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Personal Information -->
+                <div>
+                  <h3 class="text-md font-semibold mb-4 text-gray-700">Personal Information</h3>
+                  
+                  <div class="mb-4">
+                    <label for="firstName" class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                    <input type="text" id="firstName" name="firstName" [(ngModel)]="userProfile.firstName" required
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                  </div>
+                  
+                  <div class="mb-4">
+                    <label for="lastName" class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                    <input type="text" id="lastName" name="lastName" [(ngModel)]="userProfile.lastName" required
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                  </div>
+                  
+                  <div class="mb-4">
+                    <label for="dob" class="block text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
+                    <input type="date" id="dob" name="dob" [(ngModel)]="userProfile.dob"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                  </div>
+                </div>
+
+                <!-- Contact Information -->
+                <div>
+                  <h3 class="text-md font-semibold mb-4 text-gray-700">Contact Information</h3>
+                  
+                  <div class="mb-4">
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                    <input type="email" id="email" name="email" [(ngModel)]="userProfile.email" required
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                  </div>
+                  
+                  <div class="mb-4">
+                    <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" [(ngModel)]="userProfile.phone"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                  </div>
+                  
+                  <div class="mb-4">
+                    <label for="address" class="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                    <input type="text" id="address" name="address" [(ngModel)]="userProfile.address"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-6 flex justify-end">
+                <button 
+                  type="submit" 
+                  [disabled]="!profileForm.valid"
+                  class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:outline-none transition-colors"
+                  [ngClass]="{'opacity-50 cursor-not-allowed': !profileForm.valid}">
+                  Save Changes
+                </button>
+              </div>
+            </form>
+
+            <!-- Display Mode -->
+            <div *ngIf="!isEditMode">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Personal Information -->
+                <div>
+                  <h3 class="text-md font-semibold mb-4 text-gray-700">Personal Information</h3>
+                  
+                  <div class="mb-4">
+                    <p class="text-sm text-gray-500">Full Name</p>
+                    <p class="font-medium">{{userProfile.firstName}} {{userProfile.lastName}}</p>
+                  </div>
+                  
+                  <div class="mb-4">
+                    <p class="text-sm text-gray-500">Username</p>
+                    <p class="font-medium">{{userProfile.username}}</p>
+                  </div>
+                  
+                  <div class="mb-4">
+                    <p class="text-sm text-gray-500">Date of Birth</p>
+                    <p class="font-medium">{{userProfile.dob ? (userProfile.dob | date:'mediumDate') : 'Not provided'}}</p>
+                  </div>
+                </div>
+
+                <!-- Contact Information -->
+                <div>
+                  <h3 class="text-md font-semibold mb-4 text-gray-700">Contact Information</h3>
+                  
+                  <div class="mb-4">
+                    <p class="text-sm text-gray-500">Email</p>
+                    <p class="font-medium">{{userProfile.email}}</p>
+                  </div>
+                  
+                  <div class="mb-4">
+                    <p class="text-sm text-gray-500">Phone</p>
+                    <p class="font-medium">{{userProfile.phone || 'Not provided'}}</p>
+                  </div>
+                  
+                  <div class="mb-4">
+                    <p class="text-sm text-gray-500">Address</p>
+                    <p class="font-medium">{{userProfile.address || 'Not provided'}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Password Section -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden mt-6">
+          <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+            <h2 class="text-lg font-semibold text-gray-700">Security</h2>
+            <button 
+              (click)="togglePasswordChangeMode()" 
+              class="px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+              [ngClass]="{'bg-indigo-600 hover:bg-indigo-700 text-white': !isPasswordChangeMode, 'bg-gray-300 hover:bg-gray-400 text-gray-700': isPasswordChangeMode}">
+              {{ isPasswordChangeMode ? 'Cancel' : 'Change Password' }}
+            </button>
+          </div>
+
+          <div class="p-6">
+            <form *ngIf="isPasswordChangeMode" (ngSubmit)="changePassword()" #passwordForm="ngForm">
+              <div class="mb-4">
+                <label for="currentPassword" class="block text-sm font-medium text-gray-700 mb-1">Current Password</label>
+                <input type="password" id="currentPassword" name="currentPassword" [(ngModel)]="currentPassword" required
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+              </div>
+              
+              <div class="mb-4">
+                <label for="newPassword" class="block text-sm font-medium text-gray-700 mb-1">New Password</label>
+                <input type="password" id="newPassword" name="newPassword" [(ngModel)]="newPassword" required
+                       minlength="8"
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                <p class="text-xs text-gray-500 mt-1">Password must be at least 8 characters long</p>
+              </div>
+              
+              <div class="mb-4">
+                <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-1">Confirm New Password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" [(ngModel)]="confirmPassword" required
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+              </div>
+
+              <div class="mt-6 flex justify-end">
+                <button 
+                  type="submit" 
+                  [disabled]="!passwordForm.valid || newPassword !== confirmPassword"
+                  class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:outline-none transition-colors"
+                  [ngClass]="{'opacity-50 cursor-not-allowed': !passwordForm.valid || newPassword !== confirmPassword}">
+                  Update Password
+                </button>
+              </div>
+            </form>
+
+            <div *ngIf="!isPasswordChangeMode">
+              <p class="text-gray-700">Your password can be updated using the button above.</p>
+              <p class="text-sm text-gray-500 mt-2">For security reasons, we recommend changing your password regularly and using a strong, unique password.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Subscription Information -->
+      <div class="md:col-span-1">
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+          <div class="px-6 py-4 border-b border-gray-200">
+            <h2 class="text-lg font-semibold text-gray-700">Subscription Details</h2>
+          </div>
+
+          <div class="p-6">
+            <div *ngIf="subscription; else noSubscription">
+              <div class="mb-6">
+                <span class="px-3 py-1 rounded-full text-sm font-semibold" [ngClass]="getSubscriptionStatusClass()">
+                  {{getSubscriptionStatus()}}
+                </span>
+              </div>
+
+              <div class="space-y-4">
+                <div *ngIf="policyDetails">
+                  <p class="text-sm text-gray-500">Policy</p>
+                  <p class="font-medium text-gray-900">{{policyDetails.name}}</p>
+                </div>
+                
+                <div>
+                  <p class="text-sm text-gray-500">Start Date</p>
+                  <p class="font-medium text-gray-900">{{formatDate(subscription.subscriptionDate)}}</p>
+                </div>
+                
+                <div *ngIf="subscription.endDate">
+                  <p class="text-sm text-gray-500">End Date</p>
+                  <p class="font-medium text-gray-900">{{formatDate(subscription.endDate)}}</p>
+                </div>
+                
+                <div *ngIf="policyDetails">
+                  <p class="text-sm text-gray-500">Coverage</p>
+                  <p class="font-medium text-gray-900">{{policyDetails.percentage}}%</p>
+                </div>
+
+                <div *ngIf="subscription.status === 'ACTIVE'" class="pt-4 border-t border-gray-200">
+                  <button 
+                    (click)="cancelSubscription()" 
+                    class="w-full px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 focus:outline-none transition-colors">
+                    Cancel Subscription
+                  </button>
+                </div>
+
+                <div *ngIf="subscription.status === 'CANCELED'" class="pt-4 border-t border-gray-200">
+                  <a 
+                    routerLink="/policies" 
+                    class="block w-full text-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:outline-none transition-colors">
+                    Browse Policies
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <ng-template #noSubscription>
+              <div class="text-center py-8">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <h3 class="text-md font-medium text-gray-900 mb-2">No Active Subscription</h3>
+                <p class="text-sm text-gray-500 mb-6">You don't have an active insurance policy subscription yet.</p>
+                
+                <a 
+                  routerLink="/policies" 
+                  class="block w-full text-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:outline-none transition-colors">
+                  Browse Policies
+                </a>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Include the footer component -->
+<app-footer></app-footer>

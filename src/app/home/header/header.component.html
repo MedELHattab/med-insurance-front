@@ -1,0 +1,58 @@
+<header class="bg-white shadow-md fixed w-full top-0 z-50">
+    <nav class="container mx-auto px-4 py-4">
+      <div class="flex items-center justify-between">
+        <!-- Logo -->
+        <div class="flex items-center">
+          <a routerLink="/" class="flex items-center">
+            <span class="text-indigo-600 text-2xl mr-2">
+              <i class="fas fa-heartbeat"></i>
+            </span>
+            <span class="text-xl font-bold text-gray-900">MedInsurance</span>
+          </a>
+        </div>
+        
+        <!-- Desktop Navigation -->
+        <div class="hidden md:flex space-x-8">
+          <a routerLink="/" routerLinkActive="text-indigo-600" [routerLinkActiveOptions]="{exact: true}" class="text-gray-700 hover:text-indigo-600 font-medium">Home</a>
+          <a routerLink="/plans" routerLinkActive="text-indigo-600" class="text-gray-700 hover:text-indigo-600 font-medium">Plans</a>
+          <a routerLink="/about" routerLinkActive="text-indigo-600" class="text-gray-700 hover:text-indigo-600 font-medium">About Us</a>
+          <a routerLink="/claims" routerLinkActive="text-indigo-600" class="text-gray-700 hover:text-indigo-600 font-medium">Claims</a>
+          <a routerLink="/contact" routerLinkActive="text-indigo-600" class="text-gray-700 hover:text-indigo-600 font-medium">Contact</a>
+        </div>
+        
+        <!-- CTA Button & Mobile Menu Button -->
+        <div class="flex items-center space-x-4">
+          <a routerLink="/login" class="hidden md:block bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg">
+            Member Login
+          </a>
+          
+          <!-- Mobile Menu Button -->
+          <button (click)="toggleMenu()" class="md:hidden text-gray-700 focus:outline-none">
+            <svg *ngIf="!isMenuOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            <svg *ngIf="isMenuOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Mobile Menu -->
+      <div *ngIf="isMenuOpen" class="md:hidden mt-4 pb-4 animate-fade-in">
+        <div class="flex flex-col space-y-4">
+          <a routerLink="/" routerLinkActive="text-indigo-600" [routerLinkActiveOptions]="{exact: true}" class="text-gray-700 hover:text-indigo-600 font-medium py-2" (click)="isMenuOpen = false">Home</a>
+          <a routerLink="/plans" routerLinkActive="text-indigo-600" class="text-gray-700 hover:text-indigo-600 font-medium py-2" (click)="isMenuOpen = false">Plans</a>
+          <a routerLink="/about" routerLinkActive="text-indigo-600" class="text-gray-700 hover:text-indigo-600 font-medium py-2" (click)="isMenuOpen = false">About Us</a>
+          <a routerLink="/claims" routerLinkActive="text-indigo-600" class="text-gray-700 hover:text-indigo-600 font-medium py-2" (click)="isMenuOpen = false">Claims</a>
+          <a routerLink="/contact" routerLinkActive="text-indigo-600" class="text-gray-700 hover:text-indigo-600 font-medium py-2" (click)="isMenuOpen = false">Contact</a>
+          <a routerLink="/login" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg text-center" (click)="isMenuOpen = false">
+            Member Login
+          </a>
+        </div>
+      </div>
+    </nav>
+  </header>
+  
+  <!-- Spacer to account for fixed header -->
+  <div class="h-20"></div>

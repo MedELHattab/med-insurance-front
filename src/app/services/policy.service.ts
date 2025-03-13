@@ -56,4 +56,10 @@ export class PolicyService {
     const url = `${this.apiUrl}/${id}`;
     return this.http.delete(url, { headers });
   }
+
+  getActivePolicies(): Observable<PolicyDTO[]> {
+    const headers = getAuthHeaders();
+    const url = `${this.apiUrl}/active`;
+    return this.http.get<PolicyDTO[]>(url, { headers });
+  }
 }

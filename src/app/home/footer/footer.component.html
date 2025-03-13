@@ -1,0 +1,102 @@
+<footer class="bg-gray-900 text-white py-12">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <!-- Company Information -->
+      <div>
+        <div class="flex items-center mb-4">
+          <span class="text-indigo-400 text-2xl mr-2">
+            <i class="fas fa-heartbeat"></i>
+          </span>
+          <h3 class="text-xl font-semibold">MedInsurance</h3>
+        </div>
+        <p class="text-gray-400 mb-4">Providing quality health insurance solutions since 2010. We're committed to your health and financial security.</p>
+        <div class="flex space-x-4">
+          <a href="#" class="text-gray-400 hover:text-white transition">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-white transition">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-white transition">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-white transition">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Quick Links -->
+      <div>
+        <h3 class="text-xl font-semibold mb-4">Quick Links</h3>
+        <ul class="space-y-2">
+          <li><a routerLink="/" class="text-gray-400 hover:text-white transition">Home</a></li>
+          <li><a routerLink="/plans" class="text-gray-400 hover:text-white transition">Plans</a></li>
+          <li><a routerLink="/about" class="text-gray-400 hover:text-white transition">About Us</a></li>
+          <li><a routerLink="/claims" class="text-gray-400 hover:text-white transition">Claims</a></li>
+          <li><a routerLink="/contact" class="text-gray-400 hover:text-white transition">Contact</a></li>
+        </ul>
+      </div>
+      
+      <!-- Resources -->
+      <div>
+        <h3 class="text-xl font-semibold mb-4">Resources</h3>
+        <ul class="space-y-2">
+          <li><a routerLink="/find-doctor" class="text-gray-400 hover:text-white transition">Find a Doctor</a></li>
+          <li><a routerLink="/login" class="text-gray-400 hover:text-white transition">Member Login</a></li>
+          <li><a routerLink="/claims/process" class="text-gray-400 hover:text-white transition">Claim Process</a></li>
+          <li><a routerLink="/resources/guides" class="text-gray-400 hover:text-white transition">Insurance Guides</a></li>
+          <li><a routerLink="/faq" class="text-gray-400 hover:text-white transition">FAQs</a></li>
+        </ul>
+      </div>
+      
+      <!-- Newsletter -->
+      <div>
+        <h3 class="text-xl font-semibold mb-4">Newsletter</h3>
+        <p class="text-gray-400 mb-4">Subscribe to our newsletter for the latest updates and health tips.</p>
+        <form class="flex" (ngSubmit)="subscribeToNewsletter()">
+          <input type="email" [(ngModel)]="email" name="email" placeholder="Your email" 
+                 class="px-4 py-2 w-full rounded-l-lg focus:outline-none text-gray-900">
+          <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-r-lg transition">
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+    
+    <!-- Contact Information -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 pt-8 border-t border-gray-800">
+      <div class="flex items-start">
+        <div class="text-indigo-400 text-xl mr-4">
+          <i class="fas fa-map-marker-alt"></i>
+        </div>
+        <div>
+          <p class="text-gray-300">123 Insurance Avenue, Suite 500<br>New York, NY 10001</p>
+        </div>
+      </div>
+      
+      <div class="flex items-start">
+        <div class="text-indigo-400 text-xl mr-4">
+          <i class="fas fa-phone-alt"></i>
+        </div>
+        <div>
+          <p class="text-gray-300">(800) 123-4567</p>
+        </div>
+      </div>
+      
+      <div class="flex items-start">
+        <div class="text-indigo-400 text-xl mr-4">
+          <i class="fas fa-envelope"></i>
+        </div>
+        <div>
+          <p class="text-gray-300">support&#64;medinsurance.com</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Copyright -->
+    <div class="mt-12 pt-8 text-center text-gray-400 border-t border-gray-800">
+      <p>&copy; {{currentYear}} MedInsurance. All rights reserved.</p>
+    </div>
+  </div>
+</footer>

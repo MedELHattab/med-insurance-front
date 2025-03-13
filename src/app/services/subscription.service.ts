@@ -66,4 +66,20 @@ export class SubscriptionService {
       }
     );
   }
+
+  /**
+ * Cancels the user's subscription
+ * @param subscriptionId ID of the subscription to cancel
+ */
+cancelSubscription(subscriptionId: number): Observable<any> {
+  const headers = getAuthHeaders();
+  return this.http.put<any>(
+    `${this.apiUrl}/${subscriptionId}/status?newStatus=CANCELED`,
+    {},
+    {
+      headers,
+      responseType: 'text' as 'json' // This tells Angular to treat the response as text
+    }
+  );
+}
 }
