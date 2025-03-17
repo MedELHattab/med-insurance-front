@@ -19,7 +19,9 @@ export interface RegisterRequest {
   name: string;
   email: string;
   password: string;
-  age: number;
+  birthday: string;
+  address?: string;
+  phone?: string;
 }
 
 export interface VerifyRequest {

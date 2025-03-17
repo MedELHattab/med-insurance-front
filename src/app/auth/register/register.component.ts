@@ -41,7 +41,9 @@ export class RegisterComponent implements OnInit {
       name: ['', [Validators.required, Validators.maxLength(100)]],
       email: ['', [Validators.required, Validators.email, Validators.maxLength(100)]],
       password: ['', [Validators.required]],
-      age: ['', [Validators.required, Validators.min(18)]]
+      birthday: ['', [Validators.required]],
+      address: ['', [Validators.maxLength(255)]],
+      phone: ['', [Validators.pattern('^\\+?[0-9\\s\\-\\(\\)]{8,20}$')]]
     });
   }
 
@@ -50,28 +52,6 @@ export class RegisterComponent implements OnInit {
     setTimeout(() => {
       this.isComponentReady = true;
     }, 1000);
-    
-    // If you need to fetch data before showing the form:
-    /*
-    this.someService.getData().subscribe({
-      next: (data) => {
-        // Process data if needed
-        this.isComponentReady = true;
-      },
-      error: (error) => {
-        console.error('Error loading component data', error);
-        this.isComponentReady = true; // Show the form anyway
-        
-        // Optional: Show error message
-        Swal.fire({
-          title: 'Warning',
-          text: 'Some data could not be loaded. You can continue, but some features may be limited.',
-          icon: 'warning',
-          confirmButtonText: 'OK'
-        });
-      }
-    });
-    */
   }
 
   /**
@@ -151,7 +131,9 @@ export class RegisterComponent implements OnInit {
       name: this.registerForm.value.name,
       email: this.registerForm.value.email,
       password: this.registerForm.value.password,
-      age: this.registerForm.value.age
+      birthday: this.registerForm.value.birthday,
+      address: this.registerForm.value.address,
+      phone: this.registerForm.value.phone
     };
     
     // Use the AuthService's register method with the image
@@ -187,6 +169,23 @@ export class RegisterComponent implements OnInit {
         });
       }
     });
+  }
+
+  /**
+   * Validates that the user is at least 18 years old based on birthday
+   */
+  isAtLeast18(birthDate: string): boolean {
+    const today = new Date();
+    const birth = new Date(birthDate);
+    
+    let age = today.getFullYear() - birth.getFullYear();
+    const monthDifference = today.getMonth() - birth.getMonth();
+    
+    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birth.getDate())) {
+      age--;
+    }
+    
+    return age >= 18;
   }
 
   /**

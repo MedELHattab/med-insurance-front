@@ -3,20 +3,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from '../../home/header/header.component';
 import { FooterComponent } from '../../home/footer/footer.component';
-import { UserService } from '../../services/user.service';
+import { UserService, User, UpdateProfileRequest } from '../../services/user.service';
 import { SubscriptionService, SubscriptionDTO } from '../../services/subscription.service';
 import { PolicyService, PolicyDTO } from '../../services/policy.service';
 import Swal from 'sweetalert2';
 
-interface UserProfile {
-  id?: number;
-  username: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  phone: string;
-  address: string;
-  dob?: string;
+// Create a profile interface that extends User but makes password optional
+interface UserProfile extends Omit<User, 'password'> {
+  password?: string;
 }
 
 @Component({
@@ -28,13 +22,13 @@ interface UserProfile {
 })
 export class ProfileComponent implements OnInit {
   userProfile: UserProfile = {
-    username: '',
+    name: '',
     email: '',
-    firstName: '',
-    lastName: '',
-    phone: '',
+    birthday: '',
     address: '',
-    dob: ''
+    phone: '',
+    // No password field in initial state
+    role: 'CLIENT'
   };
 
   subscription: SubscriptionDTO | null = null;
@@ -43,6 +37,10 @@ export class ProfileComponent implements OnInit {
   isEditMode = false;
   isPasswordChangeMode = false;
   originalProfile: UserProfile | null = null;
+  
+  // Image upload properties
+  selectedFile: File | null = null;
+  imagePreview: string | null = null;
   
   // Password change fields
   currentPassword = '';
@@ -63,8 +61,10 @@ export class ProfileComponent implements OnInit {
   loadUserProfile(): void {
     this.isLoading = true;
     this.userService.getUserProfile().subscribe({
-      next: (data: UserProfile) => {
-        this.userProfile = data;
+      next: (data: User) => {
+        // Convert User to UserProfile (password is made optional)
+        const { password, ...rest } = data;
+        this.userProfile = rest;
         this.isLoading = false;
       },
       error: (error: unknown) => {
@@ -116,6 +116,9 @@ export class ProfileComponent implements OnInit {
         this.userProfile = { ...this.originalProfile };
       }
       this.isEditMode = false;
+      // Reset file selection on cancel
+      this.selectedFile = null;
+      this.imagePreview = null;
     }
   }
 
@@ -129,18 +132,51 @@ export class ProfileComponent implements OnInit {
     }
   }
 
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    
+    if (!input.files || input.files.length === 0) {
+      return;
+    }
+    
+    this.selectedFile = input.files[0];
+    
+    // Create a preview
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imagePreview = reader.result as string;
+    };
+    reader.readAsDataURL(this.selectedFile);
+  }
+
+  // For updating the profile with an image
   updateProfile(): void {
-    this.userService.updateProfile(this.userProfile).subscribe({
-      next: () => {
+    // Create the base request object
+    const profileRequest: UpdateProfileRequest = {
+      name: this.userProfile.name,
+      email: this.userProfile.email,
+      birthday: this.userProfile.birthday,
+      address: this.userProfile.address,
+      phone: this.userProfile.phone
+    };
+
+    // Update profile with optional image file
+    this.userService.updateProfile(profileRequest, this.selectedFile || undefined).subscribe({
+      next: (updatedUser) => {
+        // Convert User to UserProfile (password is optional)
+        const { password, ...rest } = updatedUser;
+        this.userProfile = rest;
         this.isEditMode = false;
-        this.originalProfile = null;
+        this.selectedFile = null;
+        this.imagePreview = null;
+        
         Swal.fire({
           title: 'Success!',
           text: 'Your profile has been updated successfully.',
           icon: 'success'
         });
       },
-      error: (error: unknown) => {
+      error: (error) => {
         console.error('Error updating profile:', error);
         Swal.fire({
           title: 'Error',
@@ -151,6 +187,7 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  // For password changes
   changePassword(): void {
     if (this.newPassword !== this.confirmPassword) {
       Swal.fire({
@@ -161,20 +198,29 @@ export class ProfileComponent implements OnInit {
       return;
     }
 
-    this.userService.changePassword(this.currentPassword, this.newPassword).subscribe({
+    // Create password update request
+    const passwordRequest: UpdateProfileRequest = {
+      password: this.newPassword
+    };
+
+    // Use the same endpoint to update just the password
+    this.userService.updateProfile(passwordRequest).subscribe({
       next: () => {
-        this.togglePasswordChangeMode();
+        this.isPasswordChangeMode = false;
+        this.currentPassword = '';
+        this.newPassword = '';
+        this.confirmPassword = '';
         Swal.fire({
           title: 'Success!',
           text: 'Your password has been changed successfully.',
           icon: 'success'
         });
       },
-      error: (error: unknown) => {
+      error: (error) => {
         console.error('Error changing password:', error);
         Swal.fire({
           title: 'Error',
-          text: 'Failed to change your password. Please ensure your current password is correct.',
+          text: 'Failed to change your password. Please try again.',
           icon: 'error'
         });
       }
@@ -213,6 +259,23 @@ export class ProfileComponent implements OnInit {
         });
       }
     });
+  }
+
+  // Calculate age from birthday
+  calculateAge(birthdayStr: string): number {
+    if (!birthdayStr) return 0;
+    
+    const birthday = new Date(birthdayStr);
+    const today = new Date();
+    
+    let age = today.getFullYear() - birthday.getFullYear();
+    const monthDifference = today.getMonth() - birthday.getMonth();
+    
+    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthday.getDate())) {
+      age--;
+    }
+    
+    return age;
   }
 
   getSubscriptionStatus(): string {

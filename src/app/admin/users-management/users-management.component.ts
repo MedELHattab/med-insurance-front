@@ -11,7 +11,9 @@ interface User {
   name: string;
   email: string;
   password: string;
-  age: number;
+  birthday: string;
+  address?: string;
+  phone?: string;
   image?: string;
   role: string;
   enabled?: boolean;
@@ -21,7 +23,9 @@ interface FormError {
   name?: string;
   email?: string;
   password?: string;
-  age?: string;
+  birthday?: string;
+  address?: string;
+  phone?: string;
   role?: string;
 }
 
@@ -38,8 +42,28 @@ export class UsersManagementComponent implements OnInit {
   displayedUsers: User[] = [];
   selectedUser: User | null = null;
   
-  newUser: User = { name: '', email: '', password: '', age: 18, role: 'CLIENT' };
-  updatedUser: User = { name: '', email: '', password: '', age: 18, role: 'CLIENT' };
+  // Default values for a new user - using today's date - 20 years as default birthday
+  defaultBirthday = new Date();
+  
+  newUser: User = { 
+    name: '', 
+    email: '', 
+    password: '', 
+    birthday: this.getDefaultBirthday(), 
+    address: '',
+    phone: '',
+    role: 'CLIENT' 
+  };
+  
+  updatedUser: User = { 
+    name: '', 
+    email: '', 
+    password: '', 
+    birthday: '', 
+    address: '',
+    phone: '',
+    role: 'CLIENT' 
+  };
     
   formErrors: FormError = {};
   
@@ -57,6 +81,28 @@ export class UsersManagementComponent implements OnInit {
   
   ngOnInit(): void {
     this.loadUsers();
+  }
+  
+  // Helper to get a default birthday (20 years ago)
+  getDefaultBirthday(): string {
+    const date = new Date();
+    date.setFullYear(date.getFullYear() - 20);
+    return date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+  }
+  
+  // Calculate age from birthday for display
+  calculateAge(birthday: string): number {
+    const birthDate = new Date(birthday);
+    const today = new Date();
+    
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDifference = today.getMonth() - birthDate.getMonth();
+    
+    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    
+    return age;
   }
   
   loadUsers(): void {
@@ -121,12 +167,18 @@ export class UsersManagementComponent implements OnInit {
       isValid = false;
     }
     
-    // Validate age
-    if (!this.newUser.age) {
-      this.formErrors.age = 'Age is required';
+    // Validate birthday
+    if (!this.newUser.birthday) {
+      this.formErrors.birthday = 'Date of Birth is required';
       isValid = false;
-    } else if (this.newUser.age < 18) {
-      this.formErrors.age = 'Age must be at least 18';
+    } else if (!this.isAtLeast18(this.newUser.birthday)) {
+      this.formErrors.birthday = 'User must be at least 18 years old';
+      isValid = false;
+    }
+    
+    // Validate phone (if provided)
+    if (this.newUser.phone && !this.isValidPhone(this.newUser.phone)) {
+      this.formErrors.phone = 'Please enter a valid phone number';
       isValid = false;
     }
     
@@ -144,22 +196,44 @@ export class UsersManagementComponent implements OnInit {
     return emailPattern.test(email);
   }
   
+  isValidPhone(phone: string): boolean {
+    const phonePattern = /^\+?[0-9\s\-\(\)]{8,20}$/;
+    return phonePattern.test(phone);
+  }
+  
+  isAtLeast18(birthDate: string): boolean {
+    const today = new Date();
+    const birth = new Date(birthDate);
+    
+    let age = today.getFullYear() - birth.getFullYear();
+    const monthDifference = today.getMonth() - birth.getMonth();
+    
+    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birth.getDate())) {
+      age--;
+    }
+    
+    return age >= 18;
+  }
+  
   createUser(user: User): void {
     if (!this.validateNewUser()) {
       return;
     }
     
     this.isLoading = true;
-    // Ensure age is parsed as a number
-    const userToCreate = {
-      ...user,
-      age: Number(user.age)
-    };
     
-    this.userService.createUser(userToCreate).subscribe({
+    this.userService.createUser(user).subscribe({
       next: (data) => {
         this.users.push(data);
-        this.newUser = { name: '', email: '', password: '', age: 18, role: 'CLIENT' };
+        this.newUser = { 
+          name: '', 
+          email: '', 
+          password: '', 
+          birthday: this.getDefaultBirthday(), 
+          address: '',
+          phone: '',
+          role: 'CLIENT' 
+        };
         this.applyFilters(); // Reapply filters to include the new user
         this.isLoading = false;
         Swal.fire('Success', 'User created successfully', 'success');
@@ -175,13 +249,7 @@ export class UsersManagementComponent implements OnInit {
   updateUser(id: number, user: User): void {
     this.isLoading = true;
     
-    // Ensure age is parsed as a number
-    const userToUpdate = {
-      ...user,
-      age: Number(user.age)
-    };
-    
-    this.userService.updateUser(id, userToUpdate).subscribe({
+    this.userService.updateUser(id, user).subscribe({
       next: (data) => {
         const index = this.users.findIndex(u => u.id === id);
         if (index !== -1) {
