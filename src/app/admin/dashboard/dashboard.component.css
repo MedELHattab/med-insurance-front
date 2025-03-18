@@ -1,94 +1,29 @@
 /* dashboard.component.css */
-
-/* Card hover effects */
-.shadow-hover {
-  transition: box-shadow 0.3s ease, transform 0.2s ease;
-}
-
-.shadow-hover:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-}
-
-/* Status indicators */
-.status-dot {
-  height: 10px;
-  width: 10px;
+.loader {
+  border: 4px solid rgba(0, 0, 0, 0.1);
   border-radius: 50%;
+  border-top: 4px solid #4f46e5;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.button-spinner {
   display: inline-block;
-  margin-right: 8px;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 1s ease-in-out infinite;
 }
 
-.status-operational {
-  background-color: #10B981; /* Emerald 500 */
-}
-
-.status-partial {
-  background-color: #F59E0B; /* Amber 500 */
-}
-
-.status-down {
-  background-color: #EF4444; /* Red 500 */
-}
-
-/* Button effects */
-button {
-  transition: all 0.2s ease;
-}
-
-button:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.4);
-}
-
-/* Table styles */
-table {
-  border-collapse: separate;
-  border-spacing: 0;
-}
-
-table th {
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-size: 0.75rem;
-}
-
-table tr {
-  transition: background-color 0.2s ease;
-}
-
-table tbody tr:hover {
-  background-color: #f9fafb;
-}
-
-/* Quick action buttons */
-.quick-action {
-  transition: transform 0.2s ease, background-color 0.2s ease;
-}
-
-.quick-action:hover {
-  transform: translateY(-2px);
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .stats-grid {
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-  }
-  
-  .chart-container {
-    height: 12rem;
-  }
-}
-
-/* Custom animations */
-@keyframes pulse {
-  0% { opacity: 1; }
-  50% { opacity: 0.7; }
-  100% { opacity: 1; }
-}
-
-.animate-pulse {
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+canvas {
+  width: 100% !important;
+  height: 100% !important;
 }

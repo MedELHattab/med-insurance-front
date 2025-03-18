@@ -50,15 +50,20 @@
           </div>
         </div>
 
+        <!-- Loading State -->
+        <div *ngIf="isLoading" class="flex justify-center py-12">
+          <div class="loader"></div>
+        </div>
+
         <!-- Stats Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+        <div *ngIf="!isLoading && stats" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
           <!-- Total Policies Card -->
           <div class="bg-white rounded-lg shadow-md overflow-hidden">
             <div class="p-4 bg-indigo-50">
               <div class="flex items-center justify-between">
                 <div>
                   <p class="text-sm text-indigo-600 font-medium">Total Policies</p>
-                  <h3 class="text-2xl font-bold text-gray-800">1,234</h3>
+                  <h3 class="text-2xl font-bold text-gray-800">{{ stats.totalPolicies }}</h3>
                 </div>
                 <div class="rounded-full bg-indigo-100 p-3">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none"
@@ -71,26 +76,18 @@
             </div>
             <div class="bg-white px-4 py-3 border-t">
               <div class="flex items-center text-sm">
-                <span class="text-green-500 flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M5 10l7-7m0 0l7 7m-7-7v18" />
-                  </svg>
-                  <span class="ml-1">12.5%</span>
-                </span>
-                <span class="ml-2 text-gray-600">from last month</span>
+                <span class="text-gray-600">{{ stats.activeSubscriptions }} active subscriptions</span>
               </div>
             </div>
           </div>
 
-          <!-- Premium Revenue Card -->
+          <!-- Total Refunds Card -->
           <div class="bg-white rounded-lg shadow-md overflow-hidden">
             <div class="p-4 bg-emerald-50">
               <div class="flex items-center justify-between">
                 <div>
-                  <p class="text-sm text-emerald-600 font-medium">Premium Revenue</p>
-                  <h3 class="text-2xl font-bold text-gray-800">$12,345</h3>
+                  <p class="text-sm text-emerald-600 font-medium">Total Refund Amount</p>
+                  <h3 class="text-2xl font-bold text-gray-800">{{ formatCurrency(stats.totalRefundAmount) }}</h3>
                 </div>
                 <div class="rounded-full bg-emerald-100 p-3">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-emerald-600" fill="none"
@@ -102,27 +99,20 @@
               </div>
             </div>
             <div class="bg-white px-4 py-3 border-t">
-              <div class="flex items-center text-sm">
-                <span class="text-green-500 flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M5 10l7-7m0 0l7 7m-7-7v18" />
-                  </svg>
-                  <span class="ml-1">8.2%</span>
-                </span>
-                <span class="ml-2 text-gray-600">from last month</span>
+              <div class="flex items-center justify-between text-sm">
+                <span class="text-green-600">{{ stats.paidRefunds }} paid</span>
+                <span class="text-yellow-600">{{ stats.pendingRefunds }} pending</span>
               </div>
             </div>
           </div>
 
-          <!-- Active Claims Card -->
+          <!-- Claims Summary Card -->
           <div class="bg-white rounded-lg shadow-md overflow-hidden">
             <div class="p-4 bg-amber-50">
               <div class="flex items-center justify-between">
                 <div>
-                  <p class="text-sm text-amber-600 font-medium">Active Claims</p>
-                  <h3 class="text-2xl font-bold text-gray-800">156</h3>
+                  <p class="text-sm text-amber-600 font-medium">Total Claims</p>
+                  <h3 class="text-2xl font-bold text-gray-800">{{ stats.totalClaims }}</h3>
                 </div>
                 <div class="rounded-full bg-amber-100 p-3">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24"
@@ -134,40 +124,34 @@
               </div>
             </div>
             <div class="bg-white px-4 py-3 border-t">
-              <div class="flex items-center text-sm">
-                <span class="text-red-500 flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                  </svg>
-                  <span class="ml-1">3.1%</span>
-                </span>
-                <span class="ml-2 text-gray-600">from last month</span>
+              <div class="flex items-center justify-between text-sm">
+                <span class="text-green-600">{{ stats.approvedClaims }} approved</span>
+                <span class="text-yellow-600">{{ stats.pendingClaims }} pending</span>
+                <span class="text-red-600">{{ stats.rejectedClaims }} rejected</span>
               </div>
             </div>
           </div>
 
-          <!-- Active Subscriptions Card -->
+          <!-- Users Card -->
           <div class="bg-white rounded-lg shadow-md overflow-hidden">
             <div class="p-4 bg-blue-50">
               <div class="flex items-center justify-between">
                 <div>
-                  <p class="text-sm text-blue-600 font-medium">Active Subscriptions</p>
-                  <h3 class="text-2xl font-bold text-gray-800">982</h3>
+                  <p class="text-sm text-blue-600 font-medium">Total Users</p>
+                  <h3 class="text-2xl font-bold text-gray-800">{{ stats.totalUsers }}</h3>
                 </div>
                 <div class="rounded-full bg-blue-100 p-3">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                      d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                   </svg>
                 </div>
               </div>
             </div>
             <div class="bg-white px-4 py-3 border-t">
               <div class="flex items-center text-sm">
-                <span class="text-gray-600">45 pending renewals</span>
+                <span class="text-gray-600">{{ stats.totalSubscriptions }} total subscriptions</span>
               </div>
             </div>
           </div>
@@ -180,14 +164,16 @@
             <div class="flex justify-between items-center mb-4">
               <h3 class="text-lg font-semibold text-gray-700">Monthly Claims</h3>
               <div class="flex space-x-2">
-                <button
-                  class="px-3 py-1 text-xs rounded bg-indigo-100 text-indigo-600 hover:bg-indigo-200">Weekly</button>
-                <button class="px-3 py-1 text-xs rounded bg-gray-100 text-gray-600 hover:bg-gray-200">Monthly</button>
+                <button (click)="changeClaimsTimePeriod('weekly')"
+                  [ngClass]="{'bg-indigo-100 text-indigo-600': claimsTimePeriod === 'weekly', 'bg-gray-100 text-gray-600': claimsTimePeriod !== 'weekly'}"
+                  class="px-3 py-1 text-xs rounded hover:bg-indigo-200">Weekly</button>
+                <button (click)="changeClaimsTimePeriod('monthly')"
+                  [ngClass]="{'bg-indigo-100 text-indigo-600': claimsTimePeriod === 'monthly', 'bg-gray-100 text-gray-600': claimsTimePeriod !== 'monthly'}"
+                  class="px-3 py-1 text-xs rounded hover:bg-indigo-200">Monthly</button>
               </div>
             </div>
-            <div class="h-64 flex items-center justify-center bg-gray-50 rounded">
-              <!-- Placeholder for chart -->
-              <p class="text-gray-400">Claims Chart Goes Here</p>
+            <div class="h-64 relative">
+              <canvas id="claimsChart"></canvas>
             </div>
           </div>
 
@@ -196,14 +182,16 @@
             <div class="flex justify-between items-center mb-4">
               <h3 class="text-lg font-semibold text-gray-700">Policy Distribution</h3>
               <div class="flex space-x-2">
-                <button class="px-3 py-1 text-xs rounded bg-indigo-100 text-indigo-600 hover:bg-indigo-200">This
-                  Year</button>
-                <button class="px-3 py-1 text-xs rounded bg-gray-100 text-gray-600 hover:bg-gray-200">Last Year</button>
+                <button (click)="changePolicyTimePeriod('thisYear')"
+                  [ngClass]="{'bg-indigo-100 text-indigo-600': policyTimePeriod === 'thisYear', 'bg-gray-100 text-gray-600': policyTimePeriod !== 'thisYear'}"
+                  class="px-3 py-1 text-xs rounded hover:bg-indigo-200">This Year</button>
+                <button (click)="changePolicyTimePeriod('lastYear')"
+                  [ngClass]="{'bg-indigo-100 text-indigo-600': policyTimePeriod === 'lastYear', 'bg-gray-100 text-gray-600': policyTimePeriod !== 'lastYear'}"
+                  class="px-3 py-1 text-xs rounded hover:bg-indigo-200">Last Year</button>
               </div>
             </div>
-            <div class="h-64 flex items-center justify-center bg-gray-50 rounded">
-              <!-- Placeholder for chart -->
-              <p class="text-gray-400">Policy Distribution Chart Goes Here</p>
+            <div class="h-64 relative">
+              <canvas id="policyChart"></canvas>
             </div>
           </div>
         </div>
@@ -232,121 +220,51 @@
                 </tr>
               </thead>
               <tbody class="bg-white divide-y divide-gray-200">
-                <tr>
+                <tr *ngFor="let claim of recentClaims">
                   <td class="px-6 py-4 whitespace-nowrap">
                     <div class="flex items-center">
                       <div class="flex-shrink-0 h-10 w-10">
-                        <img class="h-10 w-10 rounded-full"
-                          src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                          alt="">
+                        <img *ngIf="claim.userImage" class="h-10 w-10 rounded-full object-cover"
+                          [src]="'http://localhost:8080/api/uploads/' + claim.userImage" alt="User profile">
+                        <div *ngIf="!claim.userImage"
+                          class="h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center">
+                          <span class="text-indigo-600 font-semibold">{{ claim.userName.charAt(0).toUpperCase()
+                            }}</span>
+                        </div>
                       </div>
                       <div class="ml-4">
-                        <div class="text-sm font-medium text-gray-900">Jane Cooper</div>
-                        <div class="text-sm text-gray-500">Policy #HL-567823</div>
+                        <div class="text-sm font-medium text-gray-900">{{ claim.userName }}</div>
+                        <div class="text-sm text-gray-500">Policy #{{ claim.policyId }}</div>
                       </div>
                     </div>
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-900">Medical Expense Claim</div>
-                    <div class="text-sm text-gray-500">$2,500 - Hospital Visit</div>
+                    <div class="text-sm text-gray-900">{{ claim.policyName }}</div>
+                    <div class="text-sm text-gray-500">{{ formatCurrency(claim.amount) }} - {{ claim.description }}
+                    </div>
                   </td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Feb 26, 2025 10:23 AM</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ formatDate(claim.date) }}</td>
                   <td class="px-6 py-4 whitespace-nowrap">
-                    <span
-                      class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Approved</span>
+                    <span [ngClass]="getClaimStatusClass(claim.status)"
+                      class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full">
+                      {{ claim.status }}
+                    </span>
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <a href="#" class="text-indigo-600 hover:text-indigo-900">View</a>
+                    <a [routerLink]="['/admin/claims', claim.id]" class="text-indigo-600 hover:text-indigo-900">View</a>
                   </td>
                 </tr>
-                <tr>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="flex items-center">
-                      <div class="flex-shrink-0 h-10 w-10">
-                        <img class="h-10 w-10 rounded-full"
-                          src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                          alt="">
-                      </div>
-                      <div class="ml-4">
-                        <div class="text-sm font-medium text-gray-900">John Smith</div>
-                        <div class="text-sm text-gray-500">Policy #AT-789403</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-900">Vehicle Damage Claim</div>
-                    <div class="text-sm text-gray-500">$3,750 - Collision Repair</div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Feb 26, 2025 09:15 AM</td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <span
-                      class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Approved</span>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <a href="#" class="text-indigo-600 hover:text-indigo-900">View</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="flex items-center">
-                      <div class="flex-shrink-0 h-10 w-10">
-                        <img class="h-10 w-10 rounded-full"
-                          src="https://images.unsplash.com/photo-1520813792240-56fc4a3765a7?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                          alt="">
-                      </div>
-                      <div class="ml-4">
-                        <div class="text-sm font-medium text-gray-900">Robert Johnson</div>
-                        <div class="text-sm text-gray-500">Policy #HO-124578</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-900">Property Damage Claim</div>
-                    <div class="text-sm text-gray-500">$8,200 - Roof Repair</div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Feb 25, 2025 04:30 PM</td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <span
-                      class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Under
-                      Review</span>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <a href="#" class="text-indigo-600 hover:text-indigo-900">View</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="flex items-center">
-                      <div class="flex-shrink-0 h-10 w-10">
-                        <img class="h-10 w-10 rounded-full"
-                          src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                          alt="">
-                      </div>
-                      <div class="ml-4">
-                        <div class="text-sm font-medium text-gray-900">Michael Brown</div>
-                        <div class="text-sm text-gray-500">Policy #LF-457812</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-900">Life Insurance Claim</div>
-                    <div class="text-sm text-gray-500">$75,000 - Beneficiary Payout</div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Feb 25, 2025 02:10 PM</td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <span
-                      class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Documentation
-                      Needed</span>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <a href="#" class="text-indigo-600 hover:text-indigo-900">View</a>
+                <tr *ngIf="recentClaims.length === 0">
+                  <td colspan="5" class="px-6 py-4 text-center text-gray-500">
+                    No recent claims found
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
           <div class="bg-gray-50 px-6 py-4 border-t">
-            <a href="#" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">View all claims →</a>
+            <a routerLink="/admin/claims" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">View all
+              claims →</a>
           </div>
         </div>
 
@@ -359,7 +277,7 @@
             </div>
             <div class="p-6">
               <div class="grid grid-cols-2 gap-4">
-                <button
+                <button routerLink="/admin/policies/new"
                   class="flex flex-col items-center justify-center p-4 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition-colors duration-200">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-600 mb-2" fill="none"
                     viewBox="0 0 24 24" stroke="currentColor">
@@ -368,7 +286,7 @@
                   </svg>
                   <span class="text-sm font-medium text-gray-700">New Policy</span>
                 </button>
-                <button
+                <button routerLink="/admin/claims/new"
                   class="flex flex-col items-center justify-center p-4 bg-emerald-50 rounded-lg hover:bg-emerald-100 transition-colors duration-200">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-emerald-600 mb-2" fill="none"
                     viewBox="0 0 24 24" stroke="currentColor">
@@ -377,7 +295,7 @@
                   </svg>
                   <span class="text-sm font-medium text-gray-700">New Claim</span>
                 </button>
-                <button
+                <button routerLink="/admin/reports"
                   class="flex flex-col items-center justify-center p-4 bg-amber-50 rounded-lg hover:bg-amber-100 transition-colors duration-200">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-amber-600 mb-2" fill="none"
                     viewBox="0 0 24 24" stroke="currentColor">
@@ -386,14 +304,14 @@
                   </svg>
                   <span class="text-sm font-medium text-gray-700">Generate Report</span>
                 </button>
-                <button
+                <button routerLink="/admin/subscriptions"
                   class="flex flex-col items-center justify-center p-4 bg-red-50 rounded-lg hover:bg-red-100 transition-colors duration-200">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-600 mb-2" fill="none"
                     viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
-                  <span class="text-sm font-medium text-gray-700">Process Renewal</span>
+                  <span class="text-sm font-medium text-gray-700">Process Renewals</span>
                 </button>
               </div>
             </div>
@@ -402,49 +320,25 @@
           <!-- System Status Card -->
           <div class="bg-white rounded-lg shadow-md overflow-hidden">
             <div class="p-6 border-b">
-              <h3 class="text-lg font-semibold text-gray-700">System Status</h3>
+              <h3 class="text-lg font-semibold text-gray-700">Top Policies By Claims</h3>
             </div>
             <div class="p-6">
               <ul class="space-y-4">
-                <li class="flex items-center justify-between">
+                <li *ngFor="let policy of policyDistribution.slice(0, 5)" class="flex items-center justify-between">
                   <div class="flex items-center">
-                    <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>
-                    <span class="text-sm font-medium text-gray-700">Policy Management</span>
+                    <div class="h-2.5 w-2.5 rounded-full bg-indigo-500 mr-2"></div>
+                    <span class="text-sm font-medium text-gray-700">{{ policy.policyName }}</span>
                   </div>
-                  <span class="text-sm text-green-600 font-medium">Operational</span>
+                  <span class="text-sm text-indigo-600 font-medium">{{ policy.subscriptionCount }} subscriptions</span>
                 </li>
-                <li class="flex items-center justify-between">
-                  <div class="flex items-center">
-                    <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>
-                    <span class="text-sm font-medium text-gray-700">Claims Processing</span>
-                  </div>
-                  <span class="text-sm text-green-600 font-medium">Operational</span>
-                </li>
-                <li class="flex items-center justify-between">
-                  <div class="flex items-center">
-                    <div class="h-2.5 w-2.5 rounded-full bg-yellow-500 mr-2"></div>
-                    <span class="text-sm font-medium text-gray-700">Payment Gateway</span>
-                  </div>
-                  <span class="text-sm text-yellow-600 font-medium">Partial Outage</span>
-                </li>
-                <li class="flex items-center justify-between">
-                  <div class="flex items-center">
-                    <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>
-                    <span class="text-sm font-medium text-gray-700">Reporting Services</span>
-                  </div>
-                  <span class="text-sm text-green-600 font-medium">Operational</span>
-                </li>
-                <li class="flex items-center justify-between">
-                  <div class="flex items-center">
-                    <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>
-                    <span class="text-sm font-medium text-gray-700">Customer Portal</span>
-                  </div>
-                  <span class="text-sm text-green-600 font-medium">Operational</span>
+                <li *ngIf="policyDistribution.length === 0" class="text-center text-gray-500">
+                  No policy data available
                 </li>
               </ul>
             </div>
             <div class="bg-gray-50 px-6 py-4 border-t">
-              <a href="#" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">View detailed status →</a>
+              <a routerLink="/admin/policies" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">View all
+                policies →</a>
             </div>
           </div>
         </div>
@@ -452,7 +346,7 @@
         <!-- Footer -->
         <footer class="mt-6 bg-white rounded-lg shadow-md p-4">
           <div class="text-center text-gray-500 text-sm">
-            <p>&copy; 2025 Insurance Admin Dashboard. All rights reserved.</p>
+            <p>&copy; {{ today | date:'yyyy' }} Insurance Admin Dashboard. All rights reserved.</p>
           </div>
         </footer>
       </div>
