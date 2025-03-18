@@ -1,0 +1,53 @@
+/* user-claims.component.css */
+.animate-spin {
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  /* Add responsive table styles */
+  @media (max-width: 768px) {
+    .overflow-x-auto {
+      margin: 0 -1rem;
+    }
+    
+    table {
+      min-width: 100%;
+    }
+    
+    th, td {
+      padding-left: 0.5rem !important;
+      padding-right: 0.5rem !important;
+    }
+  }
+  
+  /* Image preview styles */
+  .image-preview {
+    transition: transform 0.2s;
+  }
+  
+  .image-preview:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Improve form accessibility */
+  input:focus, select:focus, textarea:focus {
+    outline: 2px solid #4f46e5;
+    outline-offset: 2px;
+  }
+  
+  /* Add animation for better UX */
+  button {
+    transition: all 0.2s;
+  }
+  
+  button:active {
+    transform: scale(0.98);
+  }
