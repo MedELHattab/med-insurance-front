@@ -52,3 +52,30 @@ jobs:
           name: medinsurancefront-docker-image
           path: medinsurancefront.tar
           retention-days: 7
+          
+  deploy-to-pages:
+    name: Deploy to GitHub Pages
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build for GitHub Pages
+        run: npm run build -- --configuration production --base-href="/${{ med-insurance-front }}/"
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist/MedInsuranceFront  # Adjust this path to match your Angular build output
+          branch: gh-pages
