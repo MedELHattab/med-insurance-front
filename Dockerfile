@@ -13,18 +13,19 @@ RUN npm ci
 # Copy the rest of the application
 COPY . .
 
-# Build the Angular application (updated command)
+# Build the Angular application
 RUN npm run build -- --configuration production
+
+# Find the actual build output directory (this will help debug)
+RUN ls -la /app/dist
 
 # Production stage
 FROM nginx:alpine
 
-# Copy the build output
-COPY --from=build /app/dist/medinsurancefront /usr/share/nginx/html
+# Copy the build output - using a more general path that should work regardless of app name
+COPY --from=build /app/dist/* /usr/share/nginx/html/
 
-# Copy nginx configuration (optional)
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
-
+# Expose port
 EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
