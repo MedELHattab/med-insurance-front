@@ -28,7 +28,6 @@ export class RefundService {
     return this.http.get<RefundDTO[]>(this.apiUrl, { headers });
   }
   
-  
   // GET: Fetch a single refund by ID
   getRefundById(id: number): Observable<RefundDTO> {
     const headers = getAuthHeaders();
