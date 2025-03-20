@@ -11,5 +11,5 @@ import {NgToastModule} from 'ng-angular-popup';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'ebankify-front';
+  title = 'MedInsurance';
 }
