@@ -72,7 +72,7 @@ jobs:
         run: npm ci
 
       - name: Build for GitHub Pages
-        run: npm run build -- --configuration production --base-href="/${{ med-insurance-front }}/"
+        run: npm run build -- --configuration production --base-href="/${{ github.event.repository.name }}/"
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
