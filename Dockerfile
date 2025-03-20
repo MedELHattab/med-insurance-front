@@ -1,27 +1,30 @@
-# Use official Node.js image as base
-FROM node:16 AS build
+# Build stage
+FROM node:18 as build
 
 # Set working directory
 WORKDIR /app
 
-# Copy package.json and install dependencies
+# Copy package.json and package-lock.json
 COPY package*.json ./
-RUN npm install
 
-# Copy the rest of the app
+# Install dependencies
+RUN npm ci
+
+# Copy the rest of the application
 COPY . .
 
-# Build the Angular application
-RUN npm run build --prod
+# Build the Angular application (updated command)
+RUN npm run build -- --configuration production
 
-# Use a lightweight web server to serve the app
+# Production stage
 FROM nginx:alpine
 
-# Copy the build files from the previous stage
-COPY --from=build /app/dist/your-app-name /usr/share/nginx/html
+# Copy the build output
+COPY --from=build /app/dist/medinsurancefront /usr/share/nginx/html
 
-# Expose port 80 to the outside world
+# Copy nginx configuration (optional)
+# COPY nginx.conf /etc/nginx/conf.d/default.conf
+
 EXPOSE 80
 
-# Start nginx to serve the app
 CMD ["nginx", "-g", "daemon off;"]
