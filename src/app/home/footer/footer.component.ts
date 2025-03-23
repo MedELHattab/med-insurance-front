@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-footer',
-  standalone: true,
   imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.css']

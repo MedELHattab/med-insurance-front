@@ -11,7 +11,6 @@ import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-home',
-  standalone: true,
   imports: [
     CommonModule,
     RouterModule,

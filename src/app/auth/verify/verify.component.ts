@@ -7,7 +7,6 @@ import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-verify',
-  standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './verify.component.html',
   styleUrls: ['./verify.component.css'],

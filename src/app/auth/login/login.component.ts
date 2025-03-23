@@ -7,7 +7,6 @@ import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
-  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,

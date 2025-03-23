@@ -15,7 +15,6 @@ interface UserProfile extends Omit<User, 'password'> {
 
 @Component({
   selector: 'app-profile',
-  standalone: true,
   imports: [CommonModule, FormsModule, HeaderComponent, FooterComponent],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']

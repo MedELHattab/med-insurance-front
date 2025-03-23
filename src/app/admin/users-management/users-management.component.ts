@@ -31,7 +31,6 @@ interface FormError {
 
 @Component({
   selector: 'app-users-management',
-  standalone: true,
   imports: [CommonModule, FormsModule, SidebarComponent],
   templateUrl: './users-management.component.html',
   styleUrls: ['./users-management.component.css']

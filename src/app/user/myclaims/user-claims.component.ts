@@ -20,7 +20,6 @@ interface RefundDTO {
 
 @Component({
   selector: 'app-user-claims',
-  standalone: true,
   imports: [
     CommonModule, 
     RouterModule, 

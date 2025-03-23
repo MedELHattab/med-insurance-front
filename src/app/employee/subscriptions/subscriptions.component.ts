@@ -9,7 +9,6 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-subscriptions',
-  standalone: true,
   imports: [CommonModule, FormsModule, SidebarComponent],
   templateUrl: './subscriptions.component.html',
   styles: [`

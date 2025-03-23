@@ -13,7 +13,6 @@ interface FormError {
 
 @Component({
   selector: 'app-policies',
-  standalone: true,
   imports: [CommonModule, FormsModule, SidebarComponent],
   templateUrl: './policies.component.html',
   styles: [`
