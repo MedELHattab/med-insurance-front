@@ -8,6 +8,7 @@ import { AuthService, RegisterRequest } from '../../services/auth.service';
 
 @Component({
   selector: 'app-register',
+  standalone: true,
   imports: [
     CommonModule, 
     ReactiveFormsModule,

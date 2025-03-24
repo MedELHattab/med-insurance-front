@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-claims',
+  standalone: true,
   imports: [CommonModule, FormsModule, SidebarComponent],
   templateUrl: './claims-management.component.html',
   styles: [`

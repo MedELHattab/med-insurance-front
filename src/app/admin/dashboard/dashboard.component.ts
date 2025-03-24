@@ -13,6 +13,7 @@ import { Chart, ChartConfiguration, TooltipItem } from 'chart.js/auto';
 
 @Component({
   selector: 'app-dashboard',
+  standalone: true,
   imports: [CommonModule, RouterModule, SidebarComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
